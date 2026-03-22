@@ -11,7 +11,7 @@ use super::{
     time::{ParsedTime, parse_time},
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 struct FullTimestamp {
     date: ParsedDate,
     time: ParsedTime,

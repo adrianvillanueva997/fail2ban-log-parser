@@ -1,11 +1,11 @@
 use winnow::{
     Parser,
-    ascii::digit1,
+    ascii::{digit1, space1},
     combinator::{dispatch, fail, peek, seq},
     token::any,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub(super) struct ParsedDate {
     pub(super) year: i32,
     pub(super) month: u32,
@@ -49,9 +49,9 @@ fn parse_date_syslog(input: &mut &str) -> winnow::Result<ParsedDate> {
     seq! {
         ParsedDate{
             month: parse_month_abbreviation,
-            _: ' ',
+            _: space1,
             day: digit1.parse_to::<u32>(),
-            _: ' ',
+            _: space1,
             year: digit1.parse_to::<i32>(),
         }
     }
