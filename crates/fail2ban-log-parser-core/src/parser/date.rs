@@ -26,19 +26,19 @@ fn parse_date_iso(input: &mut &str) -> winnow::Result<ParsedDate> {
 
 fn parse_month_abbreviation(input: &mut &str) -> winnow::Result<u32> {
     winnow::token::take(3usize)
-        .verify_map(|s: &str| match s.to_ascii_lowercase().as_str() {
-            "jan" => Some(1u32),
-            "feb" => Some(2u32),
-            "mar" => Some(3u32),
-            "apr" => Some(4u32),
-            "may" => Some(5u32),
-            "jun" => Some(6u32),
-            "jul" => Some(7u32),
-            "aug" => Some(8u32),
-            "sep" => Some(9u32),
-            "oct" => Some(10u32),
-            "nov" => Some(11u32),
-            "dec" => Some(12u32),
+        .verify_map(|s: &str| match s {
+            m if m.eq_ignore_ascii_case("jan") => Some(1u32),
+            m if m.eq_ignore_ascii_case("feb") => Some(2u32),
+            m if m.eq_ignore_ascii_case("mar") => Some(3u32),
+            m if m.eq_ignore_ascii_case("apr") => Some(4u32),
+            m if m.eq_ignore_ascii_case("may") => Some(5u32),
+            m if m.eq_ignore_ascii_case("jun") => Some(6u32),
+            m if m.eq_ignore_ascii_case("jul") => Some(7u32),
+            m if m.eq_ignore_ascii_case("aug") => Some(8u32),
+            m if m.eq_ignore_ascii_case("sep") => Some(9u32),
+            m if m.eq_ignore_ascii_case("oct") => Some(10u32),
+            m if m.eq_ignore_ascii_case("nov") => Some(11u32),
+            m if m.eq_ignore_ascii_case("dec") => Some(12u32),
             _ => None,
         })
         .parse_next(input)

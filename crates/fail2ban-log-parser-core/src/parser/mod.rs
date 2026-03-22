@@ -87,10 +87,10 @@ impl Fail2BanStructuredLog {
     }
 }
 
-pub(crate) fn parse_log_line(input: &mut &str) -> winnow::Result<Fail2banStructuredLog> {
+pub(crate) fn parse_log_line(input: &mut &str) -> winnow::Result<Fail2BanStructuredLog> {
     let timestamp = parse_timestamp.parse_next(input)?;
 
-    Ok(Fail2banStructuredLog {
+    Ok(Fail2BanStructuredLog {
         timestamp,
         ..Default::default()
     })
