@@ -1,4 +1,4 @@
-pub use crate::parser::Fail2banStructuredLog;
+pub use crate::parser::Fail2BanStructuredLog;
 
 mod parser;
 
@@ -17,7 +17,7 @@ where
     I: Iterator<Item = S>,
     S: AsRef<str>,
 {
-    type Item = Fail2banStructuredLog;
+    type Item = Fail2BanStructuredLog;
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
@@ -29,6 +29,6 @@ where
     }
 }
 
-pub fn parse(line: &str) -> Option<Fail2banStructuredLog> {
+pub fn parse(line: &str) -> Option<Fail2BanStructuredLog> {
     parser::parse_log_line(&mut &*line).ok()
 }

@@ -37,7 +37,7 @@ pub enum Fail2BanEvent {
 }
 
 #[derive(Default, Clone, PartialEq)]
-pub struct Fail2banStructuredLog {
+pub struct Fail2BanStructuredLog {
     timestamp: Option<DateTime<Utc>>,
     module: Option<Fail2BanModule>,
     pid: Option<u32>,
@@ -49,7 +49,7 @@ pub struct Fail2banStructuredLog {
     raw_line: Option<String>,
 }
 
-impl Fail2banStructuredLog {
+impl Fail2BanStructuredLog {
     pub fn raw_line(&self) -> Option<&String> {
         self.raw_line.as_ref()
     }
