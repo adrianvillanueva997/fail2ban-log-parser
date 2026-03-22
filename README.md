@@ -1,5 +1,8 @@
 # Fail2Ban log parser
 
+> [!IMPORTANT]
+> This library is still WIP.
+
 General structure:
 
 ```
