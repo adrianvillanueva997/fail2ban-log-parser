@@ -1,4 +1,5 @@
 mod date;
+mod header;
 mod time;
 mod timestamp;
 
@@ -8,12 +9,7 @@ use chrono::{DateTime, Utc};
 use timestamp::parse_timestamp;
 use winnow::Parser;
 
-#[derive(Debug, PartialEq, Clone)]
-pub enum Fail2BanModule {
-    Filter,
-    Actions,
-    Server,
-}
+use crate::parser::header::{Fail2banHeaderType, parse_header};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Fail2BanLogger {
@@ -39,7 +35,7 @@ pub enum Fail2BanEvent {
 #[derive(Default, Clone, PartialEq)]
 pub struct Fail2BanStructuredLog {
     timestamp: Option<DateTime<Utc>>,
-    module: Option<Fail2BanModule>,
+    header: Option<Fail2banHeaderType>,
     pid: Option<u32>,
     level: Option<Fail2BanLogger>,
     jail: Option<String>,
@@ -78,8 +74,8 @@ impl Fail2BanStructuredLog {
         self.pid
     }
 
-    pub fn module(&self) -> Option<&Fail2BanModule> {
-        self.module.as_ref()
+    pub fn header(&self) -> Option<&Fail2banHeaderType> {
+        self.header.as_ref()
     }
 
     pub fn timestamp(&self) -> Option<DateTime<Utc>> {
@@ -89,9 +85,11 @@ impl Fail2BanStructuredLog {
 
 pub(crate) fn parse_log_line(input: &mut &str) -> winnow::Result<Fail2BanStructuredLog> {
     let timestamp = parse_timestamp.parse_next(input)?;
+    let header = parse_header.parse_next(input)?;
 
     Ok(Fail2BanStructuredLog {
         timestamp,
+        header,
         ..Default::default()
     })
 }
