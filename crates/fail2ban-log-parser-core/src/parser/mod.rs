@@ -1,6 +1,7 @@
 mod date;
 mod event;
 mod header;
+mod ip;
 mod jail;
 mod level;
 mod pid;
@@ -17,8 +18,8 @@ use chrono::{DateTime, Utc};
 use winnow::Parser;
 
 use crate::parser::{
-    event::parse_event, header::parse_header, jail::parse_jail, level::parse_level, pid::parse_pid,
-    timestamp::parse_timestamp,
+    event::parse_event, header::parse_header, ip::parse_ip, jail::parse_jail, level::parse_level,
+    pid::parse_pid, timestamp::parse_timestamp,
 };
 use winnow::ascii::multispace1;
 
@@ -77,6 +78,7 @@ pub(crate) fn parse_log_line<'a>(input: &'a mut &'a str) -> winnow::Result<Fail2
     multispace1.parse_next(input)?;
     let event = parse_event.parse_next(input)?;
     multispace1.parse_next(input)?;
+    let ip = parse_ip.parse_next(input)?;
 
     Ok(Fail2BanStructuredLog {
         timestamp,
@@ -85,6 +87,6 @@ pub(crate) fn parse_log_line<'a>(input: &'a mut &'a str) -> winnow::Result<Fail2
         level,
         jail: jail.map(|j| j.to_string()),
         event,
-        ..Default::default()
+        ip,
     })
 }
