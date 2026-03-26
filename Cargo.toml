@@ -10,3 +10,11 @@ members = [
 version = "0.1.0"
 edition = "2024"
 authors = ["Adrian Villanueva Martinez"]
+
+
+[[bench]]
+name = "parsing"
+harness = false
+debug = true
+lto = true
+codegen-units = 1
