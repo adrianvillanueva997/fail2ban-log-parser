@@ -1,12 +1,16 @@
 [package]
 name = "fail2ban-log-parser-core"
 version = "0.1.0"
-edition = "2024"
+edition.workspace = true
+authors.workspace = true
+rust-version = "1.85"
 description = "Fast, zero-copy fail2ban log parser built with winnow"
 license = "MIT"
 repository = "https://github.com/adrianvillanueva997/fail2ban-log-parser"
-keywords = ["fail2ban", "parser", "log", "winnow"]
-categories = ["parsing", "command-line-utilities"]
+homepage = "https://github.com/adrianvillanueva997/fail2ban-log-parser"
+documentation = "https://docs.rs/fail2ban-log-parser-core"
+keywords = ["fail2ban", "parser", "log", "winnow", "security"]
+categories = ["parsing", "parser-implementations"]
 readme = "../../README.md"
 
 [dependencies]
@@ -19,7 +23,7 @@ criterion = { version = "0.8.2", features = ["html_reports"] }
 dhat = "0.3"
 
 [lib]
-crate-type = ["lib", "cdylib"]
+crate-type = ["lib"]
 
 [features]
 debug_errors = []
