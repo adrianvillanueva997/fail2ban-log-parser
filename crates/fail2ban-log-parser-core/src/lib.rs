@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic)]
+
 pub use crate::parser::{Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, Fail2BanStructuredLog};
 use std::fmt;
 
@@ -46,7 +48,9 @@ impl std::error::Error for ParseError {}
 /// let content = std::fs::read_to_string("fail2ban.log").unwrap();
 /// let (ok, err): (Vec<_>, Vec<_>) = parse(&content).partition(Result::is_ok);
 /// ```
-pub fn parse(input: &str) -> impl Iterator<Item = Result<Fail2BanStructuredLog, ParseError>> + '_ {
+pub fn parse(
+    input: &str,
+) -> impl Iterator<Item = Result<Fail2BanStructuredLog<'_>, ParseError>> + '_ {
     input.lines().enumerate().map(|(i, line)| {
         parser::parse_log_line(&mut &*line).map_err(|_| ParseError {
             line_number: i + 1,
