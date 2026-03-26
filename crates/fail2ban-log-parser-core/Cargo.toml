@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 chrono = "0.4.44"
+serde = { version = "1.0.228", features = ["derive"], optional = true }
 winnow = "1.0.0"
 
 [lib]
@@ -12,3 +13,4 @@ crate-type = ["lib", "cdylib"]
 
 [features]
 debug_errors = []
+serde = ["dep:serde", "chrono/serde"]

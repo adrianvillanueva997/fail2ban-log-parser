@@ -6,21 +6,22 @@ mod pid;
 mod time;
 mod timestamp;
 
+pub use header::Fail2BanHeaderType;
+pub use level::Fail2BanLevel;
+
 use std::net::IpAddr;
 
 use chrono::{DateTime, Utc};
 use winnow::Parser;
 
 use crate::parser::{
-    header::{Fail2banHeaderType, parse_header},
-    jail::parse_jail,
-    level::{Fail2BanLogger, parse_level},
-    pid::parse_pid,
+    header::parse_header, jail::parse_jail, level::parse_level, pid::parse_pid,
     timestamp::parse_timestamp,
 };
 use winnow::ascii::multispace1;
 
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Fail2BanEvent {
     Found,
     Ban,
@@ -32,15 +33,31 @@ pub enum Fail2BanEvent {
     Unknown,
 }
 
-#[derive(Clone, PartialEq, Default)]
+impl std::fmt::Display for Fail2BanEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Found => write!(f, "Found"),
+            Self::Ban => write!(f, "Ban"),
+            Self::Unban => write!(f, "Unban"),
+            Self::Restore => write!(f, "Restore"),
+            Self::Ignore => write!(f, "Ignore"),
+            Self::AlreadyBanned => write!(f, "AlreadyBanned"),
+            Self::Failed => write!(f, "Failed"),
+            Self::Unknown => write!(f, "Unknown"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Default)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fail2BanStructuredLog {
     timestamp: Option<DateTime<Utc>>,
-    header: Option<Fail2banHeaderType>,
+    header: Option<Fail2BanHeaderType>,
     pid: Option<u32>,
-    level: Option<Fail2BanLogger>,
+    level: Option<Fail2BanLevel>,
     jail: Option<String>,
     event: Option<Fail2BanEvent>,
-    ip_field: Option<IpAddr>,
+    ip: Option<IpAddr>,
     attempts: Option<u32>,
     raw_line: Option<String>,
 }
@@ -54,8 +71,8 @@ impl Fail2BanStructuredLog {
         self.attempts
     }
 
-    pub fn ip_field(&self) -> Option<&IpAddr> {
-        self.ip_field.as_ref()
+    pub fn ip(&self) -> Option<&IpAddr> {
+        self.ip.as_ref()
     }
 
     pub fn event(&self) -> Option<&Fail2BanEvent> {
@@ -66,7 +83,7 @@ impl Fail2BanStructuredLog {
         self.jail.as_deref()
     }
 
-    pub fn level(&self) -> Option<&Fail2BanLogger> {
+    pub fn level(&self) -> Option<&Fail2BanLevel> {
         self.level.as_ref()
     }
 
@@ -74,7 +91,7 @@ impl Fail2BanStructuredLog {
         self.pid
     }
 
-    pub fn header(&self) -> Option<&Fail2banHeaderType> {
+    pub fn header(&self) -> Option<&Fail2BanHeaderType> {
         self.header.as_ref()
     }
 

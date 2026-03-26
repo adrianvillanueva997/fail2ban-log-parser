@@ -1,4 +1,4 @@
-pub use crate::parser::Fail2BanStructuredLog;
+pub use crate::parser::{Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, Fail2BanStructuredLog};
 use std::fmt;
 
 mod parser;

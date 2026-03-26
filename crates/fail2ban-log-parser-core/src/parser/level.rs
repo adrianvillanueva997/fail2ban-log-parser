@@ -1,3 +1,5 @@
+use std::fmt;
+
 use winnow::{
     Parser,
     ascii::Caseless,
@@ -6,7 +8,8 @@ use winnow::{
 };
 
 #[derive(Debug, Clone, PartialEq)]
-pub enum Fail2BanLogger {
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Fail2BanLevel {
     Info,
     Notice,
     Warning,
@@ -14,13 +17,25 @@ pub enum Fail2BanLogger {
     Debug,
 }
 
-pub(super) fn parse_level(input: &mut &str) -> winnow::Result<Option<Fail2BanLogger>> {
+impl fmt::Display for Fail2BanLevel {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Info => write!(f, "Info"),
+            Self::Notice => write!(f, "Notice"),
+            Self::Warning => write!(f, "Warning"),
+            Self::Error => write!(f, "Error"),
+            Self::Debug => write!(f, "Debug"),
+        }
+    }
+}
+
+pub(super) fn parse_level(input: &mut &str) -> winnow::Result<Option<Fail2BanLevel>> {
     opt(alt((
-        Caseless("info").value(Fail2BanLogger::Info),
-        Caseless("notice").value(Fail2BanLogger::Notice),
-        Caseless("warning").value(Fail2BanLogger::Warning),
-        Caseless("error").value(Fail2BanLogger::Error),
-        Caseless("debug").value(Fail2BanLogger::Debug),
+        Caseless("info").value(Fail2BanLevel::Info),
+        Caseless("notice").value(Fail2BanLevel::Notice),
+        Caseless("warning").value(Fail2BanLevel::Warning),
+        Caseless("error").value(Fail2BanLevel::Error),
+        Caseless("debug").value(Fail2BanLevel::Debug),
     ))
     .context(StrContext::Label(
         "valid log level (info, notice, warning, error, or debug)",
