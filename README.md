@@ -131,6 +131,8 @@ flowchart TD
 
 Measured with [Criterion.rs](https://github.com/criterion-rs/criterion.rs) + [dhat](https://docs.rs/dhat) on Apple M4 Pro / 48 GB / rustc 1.94.0.
 
+Performance evolution can be seen [here](https://adrianvillanueva997.github.io/fail2ban-log-parser/).
+
 ### Single-line parsing
 
 | Variant | Time |
