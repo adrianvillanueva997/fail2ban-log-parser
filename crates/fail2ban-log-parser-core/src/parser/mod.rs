@@ -1,5 +1,6 @@
 mod date;
 mod header;
+mod jail;
 mod level;
 mod pid;
 mod time;
@@ -12,6 +13,7 @@ use winnow::Parser;
 
 use crate::parser::{
     header::{Fail2banHeaderType, parse_header},
+    jail::parse_jail,
     level::{Fail2BanLogger, parse_level},
     pid::parse_pid,
     timestamp::parse_timestamp,
@@ -30,7 +32,7 @@ pub enum Fail2BanEvent {
     Unknown,
 }
 
-#[derive(Default, Clone, PartialEq)]
+#[derive(Clone, PartialEq, Default)]
 pub struct Fail2BanStructuredLog {
     timestamp: Option<DateTime<Utc>>,
     header: Option<Fail2banHeaderType>,
@@ -44,8 +46,8 @@ pub struct Fail2BanStructuredLog {
 }
 
 impl Fail2BanStructuredLog {
-    pub fn raw_line(&self) -> Option<&String> {
-        self.raw_line.as_ref()
+    pub fn raw_line(&self) -> Option<&str> {
+        self.raw_line.as_deref()
     }
 
     pub fn attempts(&self) -> Option<u32> {
@@ -60,8 +62,8 @@ impl Fail2BanStructuredLog {
         self.event.as_ref()
     }
 
-    pub fn jail(&self) -> Option<&String> {
-        self.jail.as_ref()
+    pub fn jail(&self) -> Option<&str> {
+        self.jail.as_deref()
     }
 
     pub fn level(&self) -> Option<&Fail2BanLogger> {
@@ -81,7 +83,7 @@ impl Fail2BanStructuredLog {
     }
 }
 
-pub(crate) fn parse_log_line(input: &mut &str) -> winnow::Result<Fail2BanStructuredLog> {
+pub(crate) fn parse_log_line<'a>(input: &'a mut &'a str) -> winnow::Result<Fail2BanStructuredLog> {
     let timestamp = parse_timestamp.parse_next(input)?;
     multispace1.parse_next(input)?;
     let header = parse_header.parse_next(input)?;
@@ -90,12 +92,15 @@ pub(crate) fn parse_log_line(input: &mut &str) -> winnow::Result<Fail2BanStructu
     multispace1.parse_next(input)?;
     let level = parse_level.parse_next(input)?;
     multispace1.parse_next(input)?;
+    let jail = parse_jail.parse_next(input)?;
+    multispace1.parse_next(input)?;
 
     Ok(Fail2BanStructuredLog {
         timestamp,
         header,
         pid,
         level,
+        jail: jail.map(|j| j.to_string()),
         ..Default::default()
     })
 }
