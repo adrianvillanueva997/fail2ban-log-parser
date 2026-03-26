@@ -76,10 +76,14 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
-            - name: Run benchmarks
+
+            - name: Run sequential benchmarks
               run: cargo bench -p fail2ban-log-parser-core --bench parsing -- --output-format bencher | tee output.txt
 
-            - name: Store benchmark result
+            - name: Run parallel benchmarks
+              run: cargo bench -p fail2ban-log-parser-core --bench parsing --features parallel -- parallel --output-format bencher >> output.txt
+
+            - name: Store benchmark results
               uses: benchmark-action/github-action-benchmark@v1
               with:
                   name: Parser Benchmarks
@@ -91,7 +95,6 @@ jobs:
                   alert-threshold: "105%"
                   comment-on-alert: true
                   fail-on-alert: false
-                  # Compare against last stored result
                   alert-comment-cc-users: "@adrianvillanueva997"
 
     msrv:

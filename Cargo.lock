@@ -318,6 +318,7 @@ dependencies = [
  "chrono",
  "criterion",
  "dhat",
+ "rayon",
  "serde",
  "winnow",
 ]
