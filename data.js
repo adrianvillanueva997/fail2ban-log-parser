@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774530123744,
+  "lastUpdate": 1774535595645,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Parser Benchmarks": [
@@ -599,6 +599,180 @@ window.BENCHMARK_DATA = {
             "name": "memory_usage/collect_lines/1000000",
             "value": 395306444,
             "range": "± 1378840",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "16082421+adrianvillanueva997@users.noreply.github.com",
+            "name": "Adrián Villanueva",
+            "username": "adrianvillanueva997"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f3354df52699774bd7709e5a54163bcab5221872",
+          "message": "feat: Paralel processing (#11)\n\n* feat: Paralel processing\nThis PR implements the paralel feature keeping the same interface for\nsequential. The idea is to keep paralel as a feature to later use it\nwhen i develop the wasm bindings\n\n* Address github copilot review\n\n* fmt",
+          "timestamp": "2026-03-26T23:27:10+09:00",
+          "tree_id": "4112a159958ca434174a96e65d39183eb4d2d899",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/f3354df52699774bd7709e5a54163bcab5221872"
+        },
+        "date": 1774535594662,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "single_line/iso_date_ipv4",
+            "value": 310,
+            "range": "± 5",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "single_line/syslog_date",
+            "value": 311,
+            "range": "± 1",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "single_line/iso8601_timestamp",
+            "value": 317,
+            "range": "± 4",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "single_line/ipv6",
+            "value": 375,
+            "range": "± 2",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "batch_parsing/lines/10",
+            "value": 3320,
+            "range": "± 17",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "batch_parsing/lines/100",
+            "value": 34571,
+            "range": "± 239",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "batch_parsing/lines/1000",
+            "value": 348810,
+            "range": "± 1923",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "batch_parsing/lines/10000",
+            "value": 3497944,
+            "range": "± 24546",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "batch_parsing/lines/100000",
+            "value": 35249888,
+            "range": "± 58054",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "batch_parsing/lines/1000000",
+            "value": 352904482,
+            "range": "± 1722172",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "collect_vs_iterate/iterate_count",
+            "value": 348707,
+            "range": "± 1947",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "collect_vs_iterate/collect_vec",
+            "value": 365362,
+            "range": "± 1621",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "collect_vs_iterate/partition_ok_err",
+            "value": 360838,
+            "range": "± 1998",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "mixed_valid_invalid_1000",
+            "value": 208498,
+            "range": "± 858",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "all_event_types",
+            "value": 2903,
+            "range": "± 15",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "memory_usage/collect_lines/1",
+            "value": 347,
+            "range": "± 3",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "memory_usage/collect_lines/100",
+            "value": 36471,
+            "range": "± 261",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "memory_usage/collect_lines/1000",
+            "value": 362516,
+            "range": "± 1705",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "memory_usage/collect_lines/10000",
+            "value": 3657769,
+            "range": "± 17288",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "memory_usage/collect_lines/100000",
+            "value": 36385059,
+            "range": "± 304803",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "memory_usage/collect_lines/1000000",
+            "value": 369331644,
+            "range": "± 586067",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "parallel/lines/1000",
+            "value": 225793,
+            "range": "± 22232",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "parallel/lines/10000",
+            "value": 1830299,
+            "range": "± 52919",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "parallel/lines/100000",
+            "value": 17677435,
+            "range": "± 47657",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "parallel/lines/1000000",
+            "value": 176500354,
+            "range": "± 357520",
             "unit": "ns/iter"
           }
         ]
