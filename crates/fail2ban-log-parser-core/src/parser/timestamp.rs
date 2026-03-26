@@ -32,7 +32,7 @@ fn parse_tz_offset(input: &mut &str) -> winnow::Result<()> {
     .parse_next(input)
 }
 
-fn to_datetime(ts: FullTimestamp) -> Option<DateTime<Utc>> {
+fn to_datetime(ts: &FullTimestamp) -> Option<DateTime<Utc>> {
     chrono::NaiveDate::from_ymd_opt(ts.date.year, ts.date.month, ts.date.day)?
         .and_hms_milli_opt(
             ts.time.hour,
@@ -67,5 +67,5 @@ pub(crate) fn parse_timestamp(input: &mut &str) -> winnow::Result<Option<DateTim
     .parse_next(input)?;
 
     let full_timestamp = FullTimestamp { date, time };
-    Ok(to_datetime(full_timestamp))
+    Ok(to_datetime(&full_timestamp))
 }

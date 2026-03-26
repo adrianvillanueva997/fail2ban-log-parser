@@ -25,17 +25,18 @@ use winnow::ascii::multispace1;
 
 #[derive(Debug, Clone, PartialEq, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Fail2BanStructuredLog {
+pub struct Fail2BanStructuredLog<'a> {
     timestamp: Option<DateTime<Utc>>,
     header: Option<Fail2BanHeaderType>,
     pid: Option<u32>,
     level: Option<Fail2BanLevel>,
-    jail: Option<String>,
+    #[cfg_attr(feature = "serde", serde(borrow))]
+    jail: Option<&'a str>,
     event: Option<Fail2BanEvent>,
     ip: Option<IpAddr>,
 }
 
-impl Fail2BanStructuredLog {
+impl<'a> Fail2BanStructuredLog<'a> {
     pub fn ip(&self) -> Option<&IpAddr> {
         self.ip.as_ref()
     }
@@ -45,7 +46,7 @@ impl Fail2BanStructuredLog {
     }
 
     pub fn jail(&self) -> Option<&str> {
-        self.jail.as_deref()
+        self.jail
     }
 
     pub fn level(&self) -> Option<&Fail2BanLevel> {
@@ -65,7 +66,7 @@ impl Fail2BanStructuredLog {
     }
 }
 
-pub(crate) fn parse_log_line<'a>(input: &'a mut &'a str) -> winnow::Result<Fail2BanStructuredLog> {
+pub(crate) fn parse_log_line<'a>(input: &mut &'a str) -> winnow::Result<Fail2BanStructuredLog<'a>> {
     let timestamp = parse_timestamp.parse_next(input)?;
     multispace1.parse_next(input)?;
     let header = parse_header.parse_next(input)?;
@@ -85,7 +86,7 @@ pub(crate) fn parse_log_line<'a>(input: &'a mut &'a str) -> winnow::Result<Fail2
         header,
         pid,
         level,
-        jail: jail.map(|j| j.to_string()),
+        jail,
         event,
         ip,
     })
