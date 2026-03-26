@@ -67,7 +67,10 @@ fn empty_brackets_pid() {
 fn missing_closing_bracket_pid() {
     let line = "2024-01-01 00:00:00,000 fail2ban.filter [12345 INFO [sshd] Found 1.2.3.4";
     let result = parse(line).next().unwrap();
-    assert!(result.is_err(), "missing closing bracket on pid should fail");
+    assert!(
+        result.is_err(),
+        "missing closing bracket on pid should fail"
+    );
 }
 
 #[test]

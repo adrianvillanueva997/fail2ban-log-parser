@@ -1,9 +1,7 @@
 use std::net::{IpAddr, Ipv4Addr};
 
 use chrono::Datelike;
-use fail2ban_log_parser_core::{
-    Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, parse,
-};
+use fail2ban_log_parser_core::{Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, parse};
 
 #[test]
 fn parse_standard_found_line() {
