@@ -80,6 +80,7 @@ jobs:
                   name: Parser Benchmarks
                   tool: cargo
                   output-file-path: output.txt
+                  benchmark-data-dir-path: .
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   auto-push: ${{ github.ref == 'refs/heads/main' }}
                   alert-threshold: "105%"
