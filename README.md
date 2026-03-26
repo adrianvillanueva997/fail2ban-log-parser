@@ -3,12 +3,128 @@
 > [!IMPORTANT]
 > This library is still WIP.
 
-General structure:
+## Installation
+
+```sh
+cargo add fail2ban-log-parser-core
+```
+
+With serde support:
+
+```sh
+cargo add fail2ban-log-parser-core --features serde
+```
+
+## Usage
+
+### Parse a single line
+
+```rust
+use fail2ban_log_parser_core::parse;
+
+let line = "2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1";
+let log = parse(line).next().unwrap().unwrap();
+
+assert_eq!(log.jail(), Some("sshd"));
+assert_eq!(log.pid(), Some(12345));
+println!("{:?} {:?} {:?}", log.event(), log.ip(), log.timestamp());
+```
+
+### Parse a batch and handle errors
+
+```rust
+use fail2ban_log_parser_core::parse;
+
+let input = "\
+2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.100
+this line is not a valid log entry
+2024-01-15 14:32:03,456 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.100";
+
+for result in parse(input) {
+    match result {
+        Ok(log) => println!("{:?} {:?}", log.event(), log.ip()),
+        Err(e) => eprintln!("parse error: {e}"),
+    }
+}
+```
+
+### Filter specific events
+
+```rust
+use fail2ban_log_parser_core::{Fail2BanEvent, parse};
+
+let input = "..."; // multi-line log
+let bans: Vec<_> = parse(input)
+    .filter_map(|r| r.ok())
+    .filter(|log| log.event() == Some(&Fail2BanEvent::Ban))
+    .collect();
+```
+
+## Log structure
 
 ```text
 2024-01-15 14:32:01,847  fail2ban.filter  [12345]  INFO  [sshd] Found 1.2.3.4
 |___________________|    |______________|  |____|   |__|  |____| |__| |______|
     timestamp              header            pid    level  jail  event  IP address
+```
+
+### Supported formats
+
+| Field | Formats |
+|---|---|
+| Timestamp | `2024-01-15 14:32:01,847`, `Jan 15 2024 14:32:01,847`, `2024-01-15T14:32:01,847Z`, `±HH:MM` offset |
+| Header | `fail2ban.filter`, `fail2ban.actions`, `fail2ban.server` |
+| Level | `INFO`, `NOTICE`, `WARNING`, `ERROR`, `DEBUG` (case-insensitive) |
+| Event | `Found`, `Ban`, `Unban`, `Restore`, `Ignore`, `AlreadyBanned`, `Failed`, `Unknown` |
+| IP | IPv4 (`192.168.1.1`) and IPv6 (`2001:db8::1`) |
+
+## API
+
+| Type | Description |
+|---|---|
+| `parse(&str)` | Returns a lazy `Iterator<Item = Result<Fail2BanStructuredLog, ParseError>>` |
+| `Fail2BanStructuredLog` | Parsed log line with accessor methods: `timestamp()`, `header()`, `pid()`, `level()`, `jail()`, `event()`, `ip()` |
+| `Fail2BanEvent` | Enum: `Found`, `Ban`, `Unban`, `Restore`, `Ignore`, `AlreadyBanned`, `Failed`, `Unknown` |
+| `Fail2BanHeaderType` | Enum: `Filter`, `Actions`, `Server` |
+| `Fail2BanLevel` | Enum: `Info`, `Notice`, `Warning`, `Error`, `Debug` |
+| `ParseError` | Contains `line_number: usize` and `line: String` |
+
+### Features
+
+| Feature | Description |
+|---|---|
+| `serde` | Enables `Serialize`/`Deserialize` on all public types |
+| `debug_errors` | Extra error debugging information |
+
+## Examples
+
+```sh
+cargo run -p fail2ban-log-parser-core --example parse_single
+cargo run -p fail2ban-log-parser-core --example parse_batch
+cargo run -p fail2ban-log-parser-core --example filter_bans
+```
+
+## How it works
+
+```mermaid
+flowchart TD
+    A["&str (multi-line log)"] --> B["parse()"]
+    B --> C["Split into lines"]
+    C --> D["parse_log_line() per line"]
+
+    D --> T["timestamp"]
+    D --> H["header"]
+    D --> P["pid"]
+    D --> L["level"]
+    D --> J["jail"]
+    D --> E["event"]
+    D --> I["ip"]
+
+    T & H & P & L & J & E & I --> R{Result}
+    R -->|Ok| S["Fail2BanStructuredLog"]
+    R -->|Err| F["ParseError"]
+
+    S & F --> O["Iterator of Results"]
 ```
 
 ## Benchmarks
