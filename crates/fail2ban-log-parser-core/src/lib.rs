@@ -1,7 +1,9 @@
 #![warn(clippy::pedantic)]
 
 #[cfg(all(feature = "parallel", target_arch = "wasm32"))]
-compile_error!("The `parallel` feature is not supported on wasm32 targets. Rayon requires OS threads which are not available in WASM.");
+compile_error!(
+    "The `parallel` feature is not supported on wasm32 targets. Rayon requires OS threads which are not available in WASM."
+);
 
 pub use crate::parser::{Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, Fail2BanStructuredLog};
 use std::fmt;

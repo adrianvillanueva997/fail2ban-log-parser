@@ -237,16 +237,12 @@ fn bench_parallel(c: &mut Criterion) {
         if size >= 100_000 {
             group.sample_size(10);
         }
-        group.bench_with_input(
-            BenchmarkId::new("lines", size),
-            &input,
-            |b, input| {
-                b.iter(|| {
-                    let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
-                    black_box(count);
-                });
-            },
-        );
+        group.bench_with_input(BenchmarkId::new("lines", size), &input, |b, input| {
+            b.iter(|| {
+                let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
+                black_box(count);
+            });
+        });
     }
 
     group.finish();
