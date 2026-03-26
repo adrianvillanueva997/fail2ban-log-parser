@@ -100,7 +100,7 @@ let bans: Vec<_> = parse(input)
 | Feature | Description |
 |---|---|
 | `serde` | Enables `Serialize`/`Deserialize` on all public types |
-| `parallel` | Multi-threaded parsing via [Rayon](https://docs.rs/rayon). Same `parse()` API, lines parsed concurrently. Not available on WASM targets. |
+| `parallel` | Multi-threaded parsing via [Rayon](https://docs.rs/rayon). Same `parse()` API, lines parsed concurrently. Not supported on `wasm32` targets (compile-time error). |
 | `debug_errors` | Extra error debugging information |
 
 ## Examples

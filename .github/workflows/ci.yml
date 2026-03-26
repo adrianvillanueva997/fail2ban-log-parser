@@ -78,31 +78,17 @@ jobs:
                   cache: true
 
             - name: Run sequential benchmarks
-              run: cargo bench -p fail2ban-log-parser-core --bench parsing -- --output-format bencher | tee sequential-output.txt
+              run: cargo bench -p fail2ban-log-parser-core --bench parsing -- --output-format bencher | tee output.txt
 
             - name: Run parallel benchmarks
-              run: cargo bench -p fail2ban-log-parser-core --bench parsing --features parallel -- --output-format bencher | tee parallel-output.txt
+              run: cargo bench -p fail2ban-log-parser-core --bench parsing --features parallel -- parallel --output-format bencher >> output.txt
 
-            - name: Store sequential benchmark result
+            - name: Store benchmark results
               uses: benchmark-action/github-action-benchmark@v1
               with:
-                  name: Sequential Benchmarks
+                  name: Parser Benchmarks
                   tool: cargo
-                  output-file-path: sequential-output.txt
-                  benchmark-data-dir-path: .
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  auto-push: false
-                  alert-threshold: "105%"
-                  comment-on-alert: true
-                  fail-on-alert: false
-                  alert-comment-cc-users: "@adrianvillanueva997"
-
-            - name: Store parallel benchmark result
-              uses: benchmark-action/github-action-benchmark@v1
-              with:
-                  name: Parallel Benchmarks
-                  tool: cargo
-                  output-file-path: parallel-output.txt
+                  output-file-path: output.txt
                   benchmark-data-dir-path: .
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   auto-push: ${{ github.ref == 'refs/heads/main' }}

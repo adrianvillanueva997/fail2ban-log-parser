@@ -229,8 +229,8 @@ fn bench_memory_usage(c: &mut Criterion) {
 }
 
 #[cfg(feature = "parallel")]
-fn bench_parallel_vs_sequential(c: &mut Criterion) {
-    let mut group = c.benchmark_group("parallel_vs_sequential");
+fn bench_parallel(c: &mut Criterion) {
+    let mut group = c.benchmark_group("parallel");
 
     for size in [1_000, 10_000, 100_000, 1_000_000] {
         let input = generate_log_batch(size);
@@ -238,7 +238,7 @@ fn bench_parallel_vs_sequential(c: &mut Criterion) {
             group.sample_size(10);
         }
         group.bench_with_input(
-            BenchmarkId::new("parallel_lines", size),
+            BenchmarkId::new("lines", size),
             &input,
             |b, input| {
                 b.iter(|| {
@@ -263,7 +263,7 @@ criterion_group!(
 );
 
 #[cfg(feature = "parallel")]
-criterion_group!(parallel_benches, bench_parallel_vs_sequential,);
+criterion_group!(parallel_benches, bench_parallel,);
 
 #[cfg(not(feature = "parallel"))]
 criterion_main!(benches);
