@@ -34,3 +34,6 @@ serde = ["dep:serde", "chrono/serde"]
 [[bench]]
 name = "parsing"
 harness = false
+debug = true
+lto = true
+codegen-units = 1
