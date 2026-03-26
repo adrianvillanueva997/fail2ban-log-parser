@@ -1,4 +1,5 @@
 mod date;
+mod event;
 mod header;
 mod jail;
 mod level;
@@ -6,6 +7,7 @@ mod pid;
 mod time;
 mod timestamp;
 
+pub use event::Fail2BanEvent;
 pub use header::Fail2BanHeaderType;
 pub use level::Fail2BanLevel;
 
@@ -15,38 +17,10 @@ use chrono::{DateTime, Utc};
 use winnow::Parser;
 
 use crate::parser::{
-    header::parse_header, jail::parse_jail, level::parse_level, pid::parse_pid,
+    event::parse_event, header::parse_header, jail::parse_jail, level::parse_level, pid::parse_pid,
     timestamp::parse_timestamp,
 };
 use winnow::ascii::multispace1;
-
-#[derive(Debug, Clone, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum Fail2BanEvent {
-    Found,
-    Ban,
-    Unban,
-    Restore,
-    Ignore,
-    AlreadyBanned,
-    Failed,
-    Unknown,
-}
-
-impl std::fmt::Display for Fail2BanEvent {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Found => write!(f, "Found"),
-            Self::Ban => write!(f, "Ban"),
-            Self::Unban => write!(f, "Unban"),
-            Self::Restore => write!(f, "Restore"),
-            Self::Ignore => write!(f, "Ignore"),
-            Self::AlreadyBanned => write!(f, "AlreadyBanned"),
-            Self::Failed => write!(f, "Failed"),
-            Self::Unknown => write!(f, "Unknown"),
-        }
-    }
-}
 
 #[derive(Debug, Clone, PartialEq, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -58,19 +32,9 @@ pub struct Fail2BanStructuredLog {
     jail: Option<String>,
     event: Option<Fail2BanEvent>,
     ip: Option<IpAddr>,
-    attempts: Option<u32>,
-    raw_line: Option<String>,
 }
 
 impl Fail2BanStructuredLog {
-    pub fn raw_line(&self) -> Option<&str> {
-        self.raw_line.as_deref()
-    }
-
-    pub fn attempts(&self) -> Option<u32> {
-        self.attempts
-    }
-
     pub fn ip(&self) -> Option<&IpAddr> {
         self.ip.as_ref()
     }
@@ -111,6 +75,8 @@ pub(crate) fn parse_log_line<'a>(input: &'a mut &'a str) -> winnow::Result<Fail2
     multispace1.parse_next(input)?;
     let jail = parse_jail.parse_next(input)?;
     multispace1.parse_next(input)?;
+    let event = parse_event.parse_next(input)?;
+    multispace1.parse_next(input)?;
 
     Ok(Fail2BanStructuredLog {
         timestamp,
@@ -118,6 +84,7 @@ pub(crate) fn parse_log_line<'a>(input: &'a mut &'a str) -> winnow::Result<Fail2
         pid,
         level,
         jail: jail.map(|j| j.to_string()),
+        event,
         ..Default::default()
     })
 }
