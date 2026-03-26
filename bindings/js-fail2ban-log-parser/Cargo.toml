@@ -1,9 +1,9 @@
 
 [package]
 authors = ["LongYinan <lynweklm@gmail.com>"]
-edition = "2021"
+edition.workspace = true
 name = "js_fail2ban_log_parser"
-version = "0.1.0"
+version.workspace = true
 
 [lib]
 crate-type = ["cdylib"]

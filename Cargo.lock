@@ -313,7 +313,7 @@ checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
 
 [[package]]
 name = "fail2ban-log-parser-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "chrono",
  "criterion",
@@ -491,7 +491,7 @@ dependencies = [
 
 [[package]]
 name = "js_fail2ban_log_parser"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "napi",
  "napi-build",
@@ -733,7 +733,7 @@ dependencies = [
 
 [[package]]
 name = "py-fail2ban-log-parser"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "fail2ban-log-parser-core",
  "pyo3",
