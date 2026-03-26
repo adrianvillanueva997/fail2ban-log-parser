@@ -36,31 +36,38 @@ pub struct Fail2BanStructuredLog<'a> {
     ip: Option<IpAddr>,
 }
 
-impl<'a> Fail2BanStructuredLog<'a> {
+impl Fail2BanStructuredLog<'_> {
+    #[must_use]
     pub fn ip(&self) -> Option<&IpAddr> {
         self.ip.as_ref()
     }
 
+    #[must_use]
     pub fn event(&self) -> Option<&Fail2BanEvent> {
         self.event.as_ref()
     }
 
+    #[must_use]
     pub fn jail(&self) -> Option<&str> {
         self.jail
     }
 
+    #[must_use]
     pub fn level(&self) -> Option<&Fail2BanLevel> {
         self.level.as_ref()
     }
 
+    #[must_use]
     pub fn pid(&self) -> Option<u32> {
         self.pid
     }
 
+    #[must_use]
     pub fn header(&self) -> Option<&Fail2BanHeaderType> {
         self.header.as_ref()
     }
 
+    #[must_use]
     pub fn timestamp(&self) -> Option<DateTime<Utc>> {
         self.timestamp
     }
