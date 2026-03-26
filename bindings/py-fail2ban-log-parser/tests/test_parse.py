@@ -48,7 +48,7 @@ def test_parse_restore_line():
 
 
 def test_parse_already_banned_line():
-    line = "2024-01-01 00:00:00,000 fail2ban.filter [1] NOTICE [sshd] Already banned 1.2.3.4"
+    line = "2024-01-01 00:00:00,000 fail2ban.filter [1] NOTICE [sshd] AlreadyBanned 1.2.3.4"
     logs = parse(line)
     assert len(logs) == 1
     assert logs[0].event == "already_banned"
