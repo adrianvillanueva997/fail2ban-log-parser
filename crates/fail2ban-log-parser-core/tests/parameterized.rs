@@ -1,8 +1,6 @@
 use std::net::{IpAddr, Ipv4Addr};
 
-use fail2ban_log_parser_core::{
-    Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, parse,
-};
+use fail2ban_log_parser_core::{Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, parse};
 
 fn build_log_line(
     timestamp: &str,
@@ -49,7 +47,10 @@ fn all_event_header_combinations() {
                 "1.2.3.4",
             );
             let log = parse(&line).next().unwrap().unwrap_or_else(|e| {
-                panic!("failed to parse header={}, event={}: {}", header_str, event_str, e)
+                panic!(
+                    "failed to parse header={}, event={}: {}",
+                    header_str, event_str, e
+                )
             });
             assert_eq!(
                 log.header(),
@@ -101,7 +102,10 @@ fn all_level_event_combinations() {
                 "10.20.30.40",
             );
             let log = parse(&line).next().unwrap().unwrap_or_else(|e| {
-                panic!("failed to parse level={}, event={}: {}", level_str, event_str, e)
+                panic!(
+                    "failed to parse level={}, event={}: {}",
+                    level_str, event_str, e
+                )
             });
             assert_eq!(
                 log.level(),
@@ -129,8 +133,14 @@ fn timestamp_formats() {
         ("2024-01-01T00:00:00,000", "ISO 8601 T-separator + comma ms"),
         ("2024-01-01T00:00:00.000", "ISO 8601 T-separator + dot ms"),
         ("2024-01-01T00:00:00,000Z", "ISO 8601 + Z timezone"),
-        ("2024-01-01T00:00:00,000+01:00", "ISO 8601 + positive offset"),
-        ("2024-01-01T00:00:00,000-08:00", "ISO 8601 + negative offset"),
+        (
+            "2024-01-01T00:00:00,000+01:00",
+            "ISO 8601 + positive offset",
+        ),
+        (
+            "2024-01-01T00:00:00,000-08:00",
+            "ISO 8601 + negative offset",
+        ),
         ("Jan 1 2024 00:00:00,000", "Syslog format"),
         ("Dec 31 2024 23:59:59,999", "Syslog format end of year"),
     ];
@@ -138,7 +148,12 @@ fn timestamp_formats() {
     for (ts_str, label) in &timestamps {
         let line = format!("{} fail2ban.filter [1] INFO [sshd] Found 1.2.3.4", ts_str);
         let result = parse(&line).next().unwrap();
-        assert!(result.is_ok(), "timestamp format failed: {} ({})", ts_str, label);
+        assert!(
+            result.is_ok(),
+            "timestamp format failed: {} ({})",
+            ts_str,
+            label
+        );
         let log = result.unwrap();
         assert!(
             log.timestamp().is_some(),
