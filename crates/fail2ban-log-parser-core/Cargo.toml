@@ -15,6 +15,7 @@ readme = "../../README.md"
 
 [dependencies]
 chrono = "0.4.44"
+rayon = { version = "1.11.0", optional = true }
 serde = { version = "1.0.228", features = ["derive"], optional = true }
 winnow = "1.0.0"
 
@@ -27,6 +28,7 @@ crate-type = ["lib"]
 
 [features]
 debug_errors = []
+parallel = ["dep:rayon"]
 serde = ["dep:serde", "chrono/serde"]
 
 [[bench]]

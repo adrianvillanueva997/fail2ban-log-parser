@@ -228,6 +228,30 @@ fn bench_memory_usage(c: &mut Criterion) {
     group.finish();
 }
 
+#[cfg(feature = "parallel")]
+fn bench_parallel_vs_sequential(c: &mut Criterion) {
+    let mut group = c.benchmark_group("parallel_vs_sequential");
+
+    for size in [1_000, 10_000, 100_000, 1_000_000] {
+        let input = generate_log_batch(size);
+        if size >= 100_000 {
+            group.sample_size(10);
+        }
+        group.bench_with_input(
+            BenchmarkId::new("parallel_lines", size),
+            &input,
+            |b, input| {
+                b.iter(|| {
+                    let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
+                    black_box(count);
+                });
+            },
+        );
+    }
+
+    group.finish();
+}
+
 criterion_group!(
     benches,
     bench_single_line,
@@ -237,4 +261,12 @@ criterion_group!(
     bench_all_events,
     bench_memory_usage,
 );
+
+#[cfg(feature = "parallel")]
+criterion_group!(parallel_benches, bench_parallel_vs_sequential,);
+
+#[cfg(not(feature = "parallel"))]
 criterion_main!(benches);
+
+#[cfg(feature = "parallel")]
+criterion_main!(benches, parallel_benches);

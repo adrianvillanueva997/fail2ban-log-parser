@@ -15,6 +15,12 @@ With serde support:
 cargo add fail2ban-log-parser-core --features serde
 ```
 
+With parallel parsing (multi-threaded via Rayon):
+
+```sh
+cargo add fail2ban-log-parser-core --features parallel
+```
+
 ## Usage
 
 ### Parse a single line
@@ -82,7 +88,7 @@ let bans: Vec<_> = parse(input)
 
 | Type | Description |
 |---|---|
-| `parse(&str)` | Returns a lazy `Iterator<Item = Result<Fail2BanStructuredLog, ParseError>>` |
+| `parse(&str)` | Returns an `Iterator<Item = Result<Fail2BanStructuredLog, ParseError>>`. Sequential by default; with the `parallel` feature, lines are parsed concurrently via Rayon (same API). |
 | `Fail2BanStructuredLog` | Parsed log line with accessor methods: `timestamp()`, `header()`, `pid()`, `level()`, `jail()`, `event()`, `ip()` |
 | `Fail2BanEvent` | Enum: `Found`, `Ban`, `Unban`, `Restore`, `Ignore`, `AlreadyBanned`, `Failed`, `Unknown` |
 | `Fail2BanHeaderType` | Enum: `Filter`, `Actions`, `Server` |
@@ -94,6 +100,7 @@ let bans: Vec<_> = parse(input)
 | Feature | Description |
 |---|---|
 | `serde` | Enables `Serialize`/`Deserialize` on all public types |
+| `parallel` | Multi-threaded parsing via [Rayon](https://docs.rs/rayon). Same `parse()` API, lines parsed concurrently. Not available on WASM targets. |
 | `debug_errors` | Extra error debugging information |
 
 ## Examples
@@ -109,78 +116,111 @@ cargo run -p fail2ban-log-parser-core --example filter_bans
 ```mermaid
 flowchart TD
     A["&str (multi-line log)"] --> B["parse()"]
-    B --> C["Split into lines"]
-    C --> D["parse_log_line() per line"]
+    B --> C{parallel feature?}
+    C -->|No| D["Split into lines (lazy)"]
+    C -->|Yes| E["Collect lines + Rayon par_iter"]
+    D --> F["parse_log_line() per line"]
+    E --> F
 
-    D --> T["timestamp"]
-    D --> H["header"]
-    D --> P["pid"]
-    D --> L["level"]
-    D --> J["jail"]
-    D --> E["event"]
-    D --> I["ip"]
+    F --> T["timestamp"]
+    F --> H["header"]
+    F --> P["pid"]
+    F --> L["level"]
+    F --> J["jail"]
+    F --> EV["event"]
+    F --> I["ip"]
 
-    T & H & P & L & J & E & I --> R{Result}
+    T & H & P & L & J & EV & I --> R{Result}
     R -->|Ok| S["Fail2BanStructuredLog"]
-    R -->|Err| F["ParseError"]
+    R -->|Err| ERR["ParseError"]
 
-    S & F --> O["Iterator of Results"]
+    S & ERR --> O["Iterator of Results"]
 ```
 
 ## Benchmarks
 
-Measured with [Criterion.rs](https://github.com/criterion-rs/criterion.rs) + [dhat](https://docs.rs/dhat) on Apple M4 Pro / 48 GB / rustc 1.94.0.
+Measured with [Criterion.rs](https://github.com/criterion-rs/criterion.rs) + [dhat](https://docs.rs/dhat) on Apple M4 Pro (12 cores) / 48 GB / rustc 1.94.0.
 
 Performance evolution can be seen [here](https://adrianvillanueva997.github.io/fail2ban-log-parser/).
 
 ### Single-line parsing
 
+Time to parse one log line in isolation.
+
 | Variant | Time |
 |---|---|
-| ISO date + IPv4 | ~138 ns |
-| Syslog date | ~145 ns |
-| ISO 8601 (T-separator) | ~141 ns |
-| IPv6 address | ~158 ns |
+| ISO date + IPv4 | ~121 ns |
+| Syslog date | ~127 ns |
+| ISO 8601 (T-separator) | ~121 ns |
+| IPv6 address | ~144 ns |
 
-### Batch parsing (throughput)
+### Batch parsing
 
-| Lines | Time | Per line |
+#### Sequential (default)
+
+Single-threaded, lazy iterator. Each line is parsed on demand.
+
+| Lines | Total time | Per line |
 |---|---|---|
-| 10 | ~1.57 µs | ~157 ns |
-| 100 | ~16.4 µs | ~164 ns |
-| 1,000 | ~165 µs | ~165 ns |
-| 10,000 | ~1.66 ms | ~166 ns |
-| 100,000 | ~16.7 ms | ~167 ns |
-| 1,000,000 | ~167 ms | ~167 ns |
+| 10 | ~1.35 µs | ~135 ns |
+| 100 | ~14.1 µs | ~141 ns |
+| 1,000 | ~142 µs | ~142 ns |
+| 10,000 | ~1.42 ms | ~142 ns |
+| 100,000 | ~14.3 ms | ~143 ns |
+| 1,000,000 | ~143 ms | ~143 ns |
 
-### Collection strategies (1,000 lines)
+#### Parallel (`--features parallel`)
+
+Multi-threaded via Rayon. All lines are parsed concurrently, then yielded in order.
+
+| Lines | Total time | Per line | Speedup |
+|---|---|---|---|
+| 1,000 | ~114 µs | ~114 ns | 1.2x |
+| 10,000 | ~442 µs | ~44 ns | 3.2x |
+| 100,000 | ~2.77 ms | ~28 ns | 5.2x |
+| 1,000,000 | ~26.3 ms | ~26 ns | **5.4x** |
+
+> Parallel overhead makes it slower than sequential for small inputs (<1,000 lines).
+> The speedup scales with core count, expect different results on different hardware.
+
+### Collection strategies
+
+Time to process 1,000 lines (sequential) with different consumption patterns.
 
 | Strategy | Time |
 |---|---|
-| Iterate + count | ~166 µs |
-| Collect to Vec | ~171 µs |
-| Partition ok/err | ~170 µs |
+| Iterate + count | ~144 µs |
+| Collect to `Vec` | ~150 µs |
+| Partition ok/err | ~147 µs |
 
 ### Error handling
 
 | Scenario | Time |
 |---|---|
-| 1,000 lines (50% invalid) | ~94 µs |
-| All 8 event types (8 lines) | ~1.31 µs |
+| 1,000 lines (50% invalid) | ~81 µs |
+| All 8 event types (8 lines) | ~1.14 µs |
 
-### Memory usage (collect to Vec)
+### Memory usage (sequential, collect to `Vec`)
 
-| Lines | Total allocated | Peak in-use | Allocs | Per line |
+Heap allocations when collecting all parsed results into a `Vec`. Measured with [dhat](https://docs.rs/dhat).
+
+| Lines | Total allocated | Peak in-use | Alloc count | Per line |
 |---|---|---|---|---|
-| 1 | 260 B | 260 B | 2 | 260 B |
-| 100 | 16.14 KB | 8.39 KB | 106 | 165 B |
-| 1,000 | 131.66 KB | 67.91 KB | 1,009 | 134 B |
-| 10,000 | 2.04 MB | 1.04 MB | 10,013 | 213 B |
-| 100,000 | 16.38 MB | 8.38 MB | 100,016 | 171 B |
-| 1,000,000 | 131.81 MB | 67.81 MB | 1,000,019 | 138 B |
+| 1 | 224 B | 224 B | 1 | 224 B |
+| 100 | 13.78 KB | 7.00 KB | 6 | 141 B |
+| 1,000 | 111.78 KB | 56.00 KB | 9 | 114 B |
+| 10,000 | 1.75 MB | 896.00 KB | 13 | 183 B |
+| 100,000 | 14.00 MB | 7.00 MB | 16 | 146 B |
+| 1,000,000 | 112.00 MB | 56.00 MB | 19 | 117 B |
 
-To reproduce:
+> The low alloc count (19 for 1M lines) is because `Fail2BanStructuredLog` borrows from the input, only the `Vec` itself and its backing buffer are heap-allocated.
+
+### Reproduce
 
 ```sh
+# Sequential benchmarks
 cargo bench -p fail2ban-log-parser-core --bench parsing
+
+# Parallel benchmarks (requires parallel feature)
+cargo bench -p fail2ban-log-parser-core --bench parsing --features parallel
 ```

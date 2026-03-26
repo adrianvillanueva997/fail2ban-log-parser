@@ -76,22 +76,39 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
-            - name: Run benchmarks
-              run: cargo bench -p fail2ban-log-parser-core --bench parsing -- --output-format bencher | tee output.txt
 
-            - name: Store benchmark result
+            - name: Run sequential benchmarks
+              run: cargo bench -p fail2ban-log-parser-core --bench parsing -- --output-format bencher | tee sequential-output.txt
+
+            - name: Run parallel benchmarks
+              run: cargo bench -p fail2ban-log-parser-core --bench parsing --features parallel -- --output-format bencher | tee parallel-output.txt
+
+            - name: Store sequential benchmark result
               uses: benchmark-action/github-action-benchmark@v1
               with:
-                  name: Parser Benchmarks
+                  name: Sequential Benchmarks
                   tool: cargo
-                  output-file-path: output.txt
+                  output-file-path: sequential-output.txt
+                  benchmark-data-dir-path: .
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  auto-push: false
+                  alert-threshold: "105%"
+                  comment-on-alert: true
+                  fail-on-alert: false
+                  alert-comment-cc-users: "@adrianvillanueva997"
+
+            - name: Store parallel benchmark result
+              uses: benchmark-action/github-action-benchmark@v1
+              with:
+                  name: Parallel Benchmarks
+                  tool: cargo
+                  output-file-path: parallel-output.txt
                   benchmark-data-dir-path: .
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   auto-push: ${{ github.ref == 'refs/heads/main' }}
                   alert-threshold: "105%"
                   comment-on-alert: true
                   fail-on-alert: false
-                  # Compare against last stored result
                   alert-comment-cc-users: "@adrianvillanueva997"
 
     msrv:
