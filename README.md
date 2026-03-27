@@ -38,7 +38,7 @@ cargo add fail2ban-log-parser-core --features parallel
 pip install fail2ban-log-parser
 ```
 
-Requires Python 3.10+. Prebuilt wheels are available for Linux (x86_64, aarch64), macOS (x86_64, aarch64), and Windows (x86_64).
+Requires Python 3.10+. Prebuilt wheels are available for Linux (x86_64, aarch64), macOS (aarch64), and Windows (x86_64).
 
 ---
 

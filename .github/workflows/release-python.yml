@@ -1,84 +1,81 @@
 name: Release Python
 
 on:
-    push:
-        tags:
-            - "v*"
-    workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
 
 env:
-    CARGO_TERM_COLOR: always
-    PACKAGE_DIR: bindings/py-fail2ban-log-parser
+  CARGO_TERM_COLOR: always
+  PACKAGE_DIR: bindings/py-fail2ban-log-parser
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    build-sdist:
-        name: Build sdist
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-            - uses: PyO3/maturin-action@04ac600d27cdf7a9a280dadf7147097c42b757ad # v1.50.1
-              with:
-                  command: sdist
-                  args: --out dist
-                  working-directory: ${{ env.PACKAGE_DIR }}
-            - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-              with:
-                  name: dist-sdist
-                  path: ${{ env.PACKAGE_DIR }}/dist/*.tar.gz
+  build-sdist:
+    name: Build sdist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: PyO3/maturin-action@04ac600d27cdf7a9a280dadf7147097c42b757ad # v1.50.1
+        with:
+          command: sdist
+          args: --out dist
+          working-directory: ${{ env.PACKAGE_DIR }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dist-sdist
+          path: ${{ env.PACKAGE_DIR }}/dist/*.tar.gz
 
-    build-wheels:
-        name: Build wheels (${{ matrix.target }} - ${{ matrix.os }})
-        runs-on: ${{ matrix.os }}
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    # Linux x86_64
-                    - os: ubuntu-latest
-                      target: x86_64-unknown-linux-gnu
-                    # Linux aarch64
-                    - os: ubuntu-latest
-                      target: aarch64-unknown-linux-gnu
-                    # macOS x86_64
-                    - os: macos-13
-                      target: x86_64-apple-darwin
-                    # macOS aarch64
-                    - os: macos-latest
-                      target: aarch64-apple-darwin
-                    # Windows x86_64
-                    - os: windows-latest
-                      target: x86_64-pc-windows-msvc
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-            - uses: PyO3/maturin-action@04ac600d27cdf7a9a280dadf7147097c42b757ad # v1.50.1
-              with:
-                  target: ${{ matrix.target }}
-                  args: --release --out dist
-                  manylinux: auto
-                  working-directory: ${{ env.PACKAGE_DIR }}
-            - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-              with:
-                  name: dist-${{ matrix.target }}
-                  path: ${{ env.PACKAGE_DIR }}/dist/*.whl
+  build-wheels:
+    name: Build wheels (${{ matrix.target }} - ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux x86_64
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          # Linux aarch64
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+          # macOS aarch64
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          # Windows x86_64
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: PyO3/maturin-action@04ac600d27cdf7a9a280dadf7147097c42b757ad # v1.50.1
+        with:
+          target: ${{ matrix.target }}
+          args: --release --out dist
+          manylinux: auto
+          working-directory: ${{ env.PACKAGE_DIR }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dist-${{ matrix.target }}
+          path: ${{ env.PACKAGE_DIR }}/dist/*.whl
 
-    publish:
-        name: Publish to PyPI
-        needs: [build-sdist, build-wheels]
-        runs-on: ubuntu-latest
-        environment: pypi
-        permissions:
-            id-token: write
-        steps:
-            - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
-              with:
-                  pattern: dist-*
-                  path: dist
-                  merge-multiple: true
-            - name: List artifacts
-              run: ls -lR dist/
-            - uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.50.1
-              with:
-                  packages-dir: dist/
+  publish:
+    name: Publish to PyPI
+    needs: [build-sdist, build-wheels]
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: dist-*
+          path: dist
+          merge-multiple: true
+      - name: List artifacts
+        run: ls -lR dist/
+      - uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.50.1
+        with:
+          packages-dir: dist/
