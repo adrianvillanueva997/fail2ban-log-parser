@@ -4,18 +4,36 @@ build-backend = "maturin"
 
 [project]
 name = "fail2ban-log-parser"
-requires-python = ">=3.8"
+description = "Fast, zero-copy fail2ban log parser with Python bindings"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+keywords = ["fail2ban", "log", "parser", "security", "rust"]
 classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Logging",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Security",
+    "Typing :: Typed",
 ]
 dynamic = ["version"]
 
+[project.urls]
+Homepage = "https://metalops.dev"
+Repository = "https://github.com/adrianvillanueva997/fail2ban-log-parser"
+Documentation = "https://docs.rs/fail2ban-log-parser-core"
+"Bug Tracker" = "https://github.com/adrianvillanueva997/fail2ban-log-parser/issues"
+Changelog = "https://github.com/adrianvillanueva997/fail2ban-log-parser/releases"
+
 [dependency-groups]
-dev = [
-    "maturin>=1.12.6",
-    "pytest>=8.3.5",
-    "ruff>=0.15.7",
-    "ty>=0.0.25",
-]
+dev = ["maturin>=1.12.6", "pytest>=8.3.5", "ruff>=0.15.7", "ty>=0.0.25"]
