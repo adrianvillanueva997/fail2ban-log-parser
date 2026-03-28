@@ -45,6 +45,7 @@ Each example is available in both **JavaScript** (`.js`) and **TypeScript** (`.t
 The simplest example: parse fail2ban log content and display the results.
 
 **Available as:**
+
 - `parse-log.js` - JavaScript version
 - `parse-log.ts` - TypeScript version with full type safety
 
@@ -76,6 +77,7 @@ logs.forEach(log => {
 Demonstrates parallel processing and aggregation, useful for analyzing multiple log files.
 
 **Available as:**
+
 - `batch-processing.js` - JavaScript version
 - `batch-processing.ts` - TypeScript version with interfaces and type-safe operations
 
@@ -126,6 +128,7 @@ interface FileProcessingResult {
 Complete reference for using the exported enum types with proper type safety.
 
 **Available as:**
+
 - `enum-usage.js` - JavaScript version with enum mappings
 - `enum-usage.ts` - TypeScript version with type guards and safe helpers
 
@@ -208,6 +211,7 @@ const recentWarnings = logs.filter(
 Best practices for handling parse errors in production scenarios with error recovery strategies.
 
 **Available as:**
+
 - `error-handling.js` - JavaScript version with practical error patterns
 - `error-handling.ts` - TypeScript version with type-safe error handlers and validation
 
