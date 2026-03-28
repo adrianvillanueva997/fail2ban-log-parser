@@ -70,13 +70,13 @@ function requireNative() {
   } else if (process.platform === 'android') {
     if (process.arch === 'arm64') {
       try {
-        return require('./js-fail2ban-log-parser.android-arm64.node')
+        return require('./fail2banlogparser.android-arm64.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-android-arm64')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-android-arm64/package.json').version
+        const binding = require('fail2banlogparser-android-arm64')
+        const bindingPackageVersion = require('fail2banlogparser-android-arm64/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -86,13 +86,13 @@ function requireNative() {
       }
     } else if (process.arch === 'arm') {
       try {
-        return require('./js-fail2ban-log-parser.android-arm-eabi.node')
+        return require('./fail2banlogparser.android-arm-eabi.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-android-arm-eabi')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-android-arm-eabi/package.json').version
+        const binding = require('fail2banlogparser-android-arm-eabi')
+        const bindingPackageVersion = require('fail2banlogparser-android-arm-eabi/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -107,13 +107,13 @@ function requireNative() {
     if (process.arch === 'x64') {
       if (process.config?.variables?.shlib_suffix === 'dll.a' || process.config?.variables?.node_target_type === 'shared_library') {
         try {
-        return require('./js-fail2ban-log-parser.win32-x64-gnu.node')
+        return require('./fail2banlogparser.win32-x64-gnu.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-win32-x64-gnu')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-win32-x64-gnu/package.json').version
+        const binding = require('fail2banlogparser-win32-x64-gnu')
+        const bindingPackageVersion = require('fail2banlogparser-win32-x64-gnu/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -123,13 +123,13 @@ function requireNative() {
       }
       } else {
         try {
-        return require('./js-fail2ban-log-parser.win32-x64-msvc.node')
+        return require('./fail2banlogparser.win32-x64-msvc.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-win32-x64-msvc')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-win32-x64-msvc/package.json').version
+        const binding = require('fail2banlogparser-win32-x64-msvc')
+        const bindingPackageVersion = require('fail2banlogparser-win32-x64-msvc/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -140,13 +140,13 @@ function requireNative() {
       }
     } else if (process.arch === 'ia32') {
       try {
-        return require('./js-fail2ban-log-parser.win32-ia32-msvc.node')
+        return require('./fail2banlogparser.win32-ia32-msvc.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-win32-ia32-msvc')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-win32-ia32-msvc/package.json').version
+        const binding = require('fail2banlogparser-win32-ia32-msvc')
+        const bindingPackageVersion = require('fail2banlogparser-win32-ia32-msvc/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -156,13 +156,13 @@ function requireNative() {
       }
     } else if (process.arch === 'arm64') {
       try {
-        return require('./js-fail2ban-log-parser.win32-arm64-msvc.node')
+        return require('./fail2banlogparser.win32-arm64-msvc.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-win32-arm64-msvc')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-win32-arm64-msvc/package.json').version
+        const binding = require('fail2banlogparser-win32-arm64-msvc')
+        const bindingPackageVersion = require('fail2banlogparser-win32-arm64-msvc/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -175,13 +175,13 @@ function requireNative() {
     }
   } else if (process.platform === 'darwin') {
     try {
-      return require('./js-fail2ban-log-parser.darwin-universal.node')
+      return require('./fail2banlogparser.darwin-universal.node')
     } catch (e) {
       loadErrors.push(e)
     }
     try {
-      const binding = require('js-fail2ban-log-parser-darwin-universal')
-      const bindingPackageVersion = require('js-fail2ban-log-parser-darwin-universal/package.json').version
+      const binding = require('fail2banlogparser-darwin-universal')
+      const bindingPackageVersion = require('fail2banlogparser-darwin-universal/package.json').version
       if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
         throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
       }
@@ -191,13 +191,13 @@ function requireNative() {
     }
     if (process.arch === 'x64') {
       try {
-        return require('./js-fail2ban-log-parser.darwin-x64.node')
+        return require('./fail2banlogparser.darwin-x64.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-darwin-x64')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-darwin-x64/package.json').version
+        const binding = require('fail2banlogparser-darwin-x64')
+        const bindingPackageVersion = require('fail2banlogparser-darwin-x64/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -207,13 +207,13 @@ function requireNative() {
       }
     } else if (process.arch === 'arm64') {
       try {
-        return require('./js-fail2ban-log-parser.darwin-arm64.node')
+        return require('./fail2banlogparser.darwin-arm64.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-darwin-arm64')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-darwin-arm64/package.json').version
+        const binding = require('fail2banlogparser-darwin-arm64')
+        const bindingPackageVersion = require('fail2banlogparser-darwin-arm64/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -227,13 +227,13 @@ function requireNative() {
   } else if (process.platform === 'freebsd') {
     if (process.arch === 'x64') {
       try {
-        return require('./js-fail2ban-log-parser.freebsd-x64.node')
+        return require('./fail2banlogparser.freebsd-x64.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-freebsd-x64')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-freebsd-x64/package.json').version
+        const binding = require('fail2banlogparser-freebsd-x64')
+        const bindingPackageVersion = require('fail2banlogparser-freebsd-x64/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -243,13 +243,13 @@ function requireNative() {
       }
     } else if (process.arch === 'arm64') {
       try {
-        return require('./js-fail2ban-log-parser.freebsd-arm64.node')
+        return require('./fail2banlogparser.freebsd-arm64.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-freebsd-arm64')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-freebsd-arm64/package.json').version
+        const binding = require('fail2banlogparser-freebsd-arm64')
+        const bindingPackageVersion = require('fail2banlogparser-freebsd-arm64/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -264,13 +264,13 @@ function requireNative() {
     if (process.arch === 'x64') {
       if (isMusl()) {
         try {
-          return require('./js-fail2ban-log-parser.linux-x64-musl.node')
+          return require('./fail2banlogparser.linux-x64-musl.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-x64-musl')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-x64-musl/package.json').version
+          const binding = require('fail2banlogparser-linux-x64-musl')
+          const bindingPackageVersion = require('fail2banlogparser-linux-x64-musl/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -280,13 +280,13 @@ function requireNative() {
         }
       } else {
         try {
-          return require('./js-fail2ban-log-parser.linux-x64-gnu.node')
+          return require('./fail2banlogparser.linux-x64-gnu.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-x64-gnu')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-x64-gnu/package.json').version
+          const binding = require('fail2banlogparser-linux-x64-gnu')
+          const bindingPackageVersion = require('fail2banlogparser-linux-x64-gnu/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -298,13 +298,13 @@ function requireNative() {
     } else if (process.arch === 'arm64') {
       if (isMusl()) {
         try {
-          return require('./js-fail2ban-log-parser.linux-arm64-musl.node')
+          return require('./fail2banlogparser.linux-arm64-musl.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-arm64-musl')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-arm64-musl/package.json').version
+          const binding = require('fail2banlogparser-linux-arm64-musl')
+          const bindingPackageVersion = require('fail2banlogparser-linux-arm64-musl/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -314,13 +314,13 @@ function requireNative() {
         }
       } else {
         try {
-          return require('./js-fail2ban-log-parser.linux-arm64-gnu.node')
+          return require('./fail2banlogparser.linux-arm64-gnu.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-arm64-gnu')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-arm64-gnu/package.json').version
+          const binding = require('fail2banlogparser-linux-arm64-gnu')
+          const bindingPackageVersion = require('fail2banlogparser-linux-arm64-gnu/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -332,13 +332,13 @@ function requireNative() {
     } else if (process.arch === 'arm') {
       if (isMusl()) {
         try {
-          return require('./js-fail2ban-log-parser.linux-arm-musleabihf.node')
+          return require('./fail2banlogparser.linux-arm-musleabihf.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-arm-musleabihf')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-arm-musleabihf/package.json').version
+          const binding = require('fail2banlogparser-linux-arm-musleabihf')
+          const bindingPackageVersion = require('fail2banlogparser-linux-arm-musleabihf/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -348,13 +348,13 @@ function requireNative() {
         }
       } else {
         try {
-          return require('./js-fail2ban-log-parser.linux-arm-gnueabihf.node')
+          return require('./fail2banlogparser.linux-arm-gnueabihf.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-arm-gnueabihf')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-arm-gnueabihf/package.json').version
+          const binding = require('fail2banlogparser-linux-arm-gnueabihf')
+          const bindingPackageVersion = require('fail2banlogparser-linux-arm-gnueabihf/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -366,13 +366,13 @@ function requireNative() {
     } else if (process.arch === 'loong64') {
       if (isMusl()) {
         try {
-          return require('./js-fail2ban-log-parser.linux-loong64-musl.node')
+          return require('./fail2banlogparser.linux-loong64-musl.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-loong64-musl')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-loong64-musl/package.json').version
+          const binding = require('fail2banlogparser-linux-loong64-musl')
+          const bindingPackageVersion = require('fail2banlogparser-linux-loong64-musl/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -382,13 +382,13 @@ function requireNative() {
         }
       } else {
         try {
-          return require('./js-fail2ban-log-parser.linux-loong64-gnu.node')
+          return require('./fail2banlogparser.linux-loong64-gnu.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-loong64-gnu')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-loong64-gnu/package.json').version
+          const binding = require('fail2banlogparser-linux-loong64-gnu')
+          const bindingPackageVersion = require('fail2banlogparser-linux-loong64-gnu/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -400,13 +400,13 @@ function requireNative() {
     } else if (process.arch === 'riscv64') {
       if (isMusl()) {
         try {
-          return require('./js-fail2ban-log-parser.linux-riscv64-musl.node')
+          return require('./fail2banlogparser.linux-riscv64-musl.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-riscv64-musl')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-riscv64-musl/package.json').version
+          const binding = require('fail2banlogparser-linux-riscv64-musl')
+          const bindingPackageVersion = require('fail2banlogparser-linux-riscv64-musl/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -416,13 +416,13 @@ function requireNative() {
         }
       } else {
         try {
-          return require('./js-fail2ban-log-parser.linux-riscv64-gnu.node')
+          return require('./fail2banlogparser.linux-riscv64-gnu.node')
         } catch (e) {
           loadErrors.push(e)
         }
         try {
-          const binding = require('js-fail2ban-log-parser-linux-riscv64-gnu')
-          const bindingPackageVersion = require('js-fail2ban-log-parser-linux-riscv64-gnu/package.json').version
+          const binding = require('fail2banlogparser-linux-riscv64-gnu')
+          const bindingPackageVersion = require('fail2banlogparser-linux-riscv64-gnu/package.json').version
           if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -433,13 +433,13 @@ function requireNative() {
       }
     } else if (process.arch === 'ppc64') {
       try {
-        return require('./js-fail2ban-log-parser.linux-ppc64-gnu.node')
+        return require('./fail2banlogparser.linux-ppc64-gnu.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-linux-ppc64-gnu')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-linux-ppc64-gnu/package.json').version
+        const binding = require('fail2banlogparser-linux-ppc64-gnu')
+        const bindingPackageVersion = require('fail2banlogparser-linux-ppc64-gnu/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -449,13 +449,13 @@ function requireNative() {
       }
     } else if (process.arch === 's390x') {
       try {
-        return require('./js-fail2ban-log-parser.linux-s390x-gnu.node')
+        return require('./fail2banlogparser.linux-s390x-gnu.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-linux-s390x-gnu')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-linux-s390x-gnu/package.json').version
+        const binding = require('fail2banlogparser-linux-s390x-gnu')
+        const bindingPackageVersion = require('fail2banlogparser-linux-s390x-gnu/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -469,13 +469,13 @@ function requireNative() {
   } else if (process.platform === 'openharmony') {
     if (process.arch === 'arm64') {
       try {
-        return require('./js-fail2ban-log-parser.openharmony-arm64.node')
+        return require('./fail2banlogparser.openharmony-arm64.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-openharmony-arm64')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-openharmony-arm64/package.json').version
+        const binding = require('fail2banlogparser-openharmony-arm64')
+        const bindingPackageVersion = require('fail2banlogparser-openharmony-arm64/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -485,13 +485,13 @@ function requireNative() {
       }
     } else if (process.arch === 'x64') {
       try {
-        return require('./js-fail2ban-log-parser.openharmony-x64.node')
+        return require('./fail2banlogparser.openharmony-x64.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-openharmony-x64')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-openharmony-x64/package.json').version
+        const binding = require('fail2banlogparser-openharmony-x64')
+        const bindingPackageVersion = require('fail2banlogparser-openharmony-x64/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -501,13 +501,13 @@ function requireNative() {
       }
     } else if (process.arch === 'arm') {
       try {
-        return require('./js-fail2ban-log-parser.openharmony-arm.node')
+        return require('./fail2banlogparser.openharmony-arm.node')
       } catch (e) {
         loadErrors.push(e)
       }
       try {
-        const binding = require('js-fail2ban-log-parser-openharmony-arm')
-        const bindingPackageVersion = require('js-fail2ban-log-parser-openharmony-arm/package.json').version
+        const binding = require('fail2banlogparser-openharmony-arm')
+        const bindingPackageVersion = require('fail2banlogparser-openharmony-arm/package.json').version
         if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -529,7 +529,7 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   let wasiBinding = null
   let wasiBindingError = null
   try {
-    wasiBinding = require('./js-fail2ban-log-parser.wasi.cjs')
+    wasiBinding = require('./fail2banlogparser.wasi.cjs')
     nativeBinding = wasiBinding
   } catch (err) {
     if (process.env.NAPI_RS_FORCE_WASI) {
@@ -538,7 +538,7 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   }
   if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
     try {
-      wasiBinding = require('js-fail2ban-log-parser-wasm32-wasi')
+      wasiBinding = require('fail2banlogparser-wasm32-wasi')
       nativeBinding = wasiBinding
     } catch (err) {
       if (process.env.NAPI_RS_FORCE_WASI) {
@@ -576,4 +576,7 @@ if (!nativeBinding) {
 }
 
 module.exports = nativeBinding
-module.exports.plus100 = nativeBinding.plus100
+module.exports.Fail2BanEvent = nativeBinding.Fail2BanEvent
+module.exports.Fail2BanHeaderType = nativeBinding.Fail2BanHeaderType
+module.exports.Fail2BanLevel = nativeBinding.Fail2BanLevel
+module.exports.parse = nativeBinding.parse
