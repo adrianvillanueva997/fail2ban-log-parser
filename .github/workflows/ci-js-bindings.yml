@@ -1,0 +1,45 @@
+name: CI - JS Bindings
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "bindings/js-fail2ban-log-parser/**"
+    pull_request:
+        branches: [main]
+        paths:
+            - "bindings/js-fail2ban-log-parser/**"
+
+jobs:
+    js-bindings:
+        name: JS bindings build+test
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macos-latest, windows-latest]
+                node-version: [20, 22, 24]
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: npm
+
+            - name: Install pnpm
+              run: npm install -g pnpm
+
+            - name: Install dependencies
+              working-directory: bindings/js-fail2ban-log-parser
+              run: pnpm install
+
+            - name: Build bindings
+              working-directory: bindings/js-fail2ban-log-parser
+              run: pnpm build
+
+            - name: Run tests
+              working-directory: bindings/js-fail2ban-log-parser
+              run: pnpm test

@@ -1,14 +1,17 @@
 
 [package]
-authors = ["LongYinan <lynweklm@gmail.com>"]
+authors           = ["LongYinan <lynweklm@gmail.com>"]
 edition.workspace = true
-name = "js_fail2ban_log_parser"
+name              = "js_fail2ban_log_parser"
 version.workspace = true
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
+fail2ban-log-parser-core = { path = "../../crates/fail2ban-log-parser-core/", features = [
+  "parallel",
+] }
 napi = "3.0.0"
 napi-derive = "3.0.0"
 
@@ -16,5 +19,5 @@ napi-derive = "3.0.0"
 napi-build = "2"
 
 [profile.release]
-lto = true
+lto   = true
 strip = "symbols"

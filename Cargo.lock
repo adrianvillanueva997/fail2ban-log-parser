@@ -493,6 +493,7 @@ dependencies = [
 name = "js_fail2ban_log_parser"
 version = "0.1.2"
 dependencies = [
+ "fail2ban-log-parser-core",
  "napi",
  "napi-build",
  "napi-derive",

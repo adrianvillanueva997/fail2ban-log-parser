@@ -18,16 +18,21 @@ env:
 
 jobs:
     test:
-        name: Test (${{ matrix.os }})
+        name: Test (${{ matrix.os }} / Python ${{ matrix.python-version }})
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
                 os: [ubuntu-latest, macos-latest, windows-latest]
+                python-version: [3.10, 3.11, 3.12]
         defaults:
             run:
                 working-directory: bindings/py-fail2ban-log-parser
         steps:
             - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+            - name: Setup Python
+              uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 #v6.2.0
+              with:
+                  python-version: ${{ matrix.python-version }}
             - uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
               with:
                   toolchain: stable

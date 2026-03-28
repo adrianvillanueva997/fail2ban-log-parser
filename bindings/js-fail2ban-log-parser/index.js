@@ -576,4 +576,8 @@ if (!nativeBinding) {
 }
 
 module.exports = nativeBinding
+module.exports.Fail2BanEvent = nativeBinding.Fail2BanEvent
+module.exports.Fail2BanHeaderType = nativeBinding.Fail2BanHeaderType
+module.exports.Fail2BanLevel = nativeBinding.Fail2BanLevel
+module.exports.parse = nativeBinding.parse
 module.exports.plus100 = nativeBinding.plus100
