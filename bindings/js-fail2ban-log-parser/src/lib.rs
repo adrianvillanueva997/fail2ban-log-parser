@@ -1,4 +1,4 @@
-#![deny(clippy::all)]
+#![warn(clippy::pedantic)]
 
 use fail2ban_log_parser_core::{
   Fail2BanEvent as CoreFail2BanEvent, Fail2BanHeaderType as CoreFail2BanHeaderType,
@@ -34,6 +34,43 @@ pub enum Fail2BanEvent {
   Unknown,
 }
 
+impl From<&CoreFail2BanHeaderType> for Fail2BanHeaderType {
+  fn from(h: &CoreFail2BanHeaderType) -> Self {
+    match h {
+      CoreFail2BanHeaderType::Filter => Self::Filter,
+      CoreFail2BanHeaderType::Actions => Self::Actions,
+      CoreFail2BanHeaderType::Server => Self::Server,
+    }
+  }
+}
+
+impl From<&CoreFail2BanLevel> for Fail2BanLevel {
+  fn from(l: &CoreFail2BanLevel) -> Self {
+    match l {
+      CoreFail2BanLevel::Info => Self::Info,
+      CoreFail2BanLevel::Notice => Self::Notice,
+      CoreFail2BanLevel::Warning => Self::Warning,
+      CoreFail2BanLevel::Error => Self::Error,
+      CoreFail2BanLevel::Debug => Self::Debug,
+    }
+  }
+}
+
+impl From<&CoreFail2BanEvent> for Fail2BanEvent {
+  fn from(e: &CoreFail2BanEvent) -> Self {
+    match e {
+      CoreFail2BanEvent::Found => Self::Found,
+      CoreFail2BanEvent::Ban => Self::Ban,
+      CoreFail2BanEvent::Unban => Self::Unban,
+      CoreFail2BanEvent::Restore => Self::Restore,
+      CoreFail2BanEvent::Ignore => Self::Ignore,
+      CoreFail2BanEvent::AlreadyBanned => Self::AlreadyBanned,
+      CoreFail2BanEvent::Failed => Self::Failed,
+      CoreFail2BanEvent::Unknown => Self::Unknown,
+    }
+  }
+}
+
 #[napi(object)]
 pub struct Fail2BanLog {
   pub timestamp: Option<String>,
@@ -51,68 +88,35 @@ pub struct ParseError {
   pub line: String,
 }
 
-fn convert_header(header: &CoreFail2BanHeaderType) -> Fail2BanHeaderType {
-  match header {
-    CoreFail2BanHeaderType::Filter => Fail2BanHeaderType::Filter,
-    CoreFail2BanHeaderType::Actions => Fail2BanHeaderType::Actions,
-    CoreFail2BanHeaderType::Server => Fail2BanHeaderType::Server,
-  }
-}
-
-fn convert_level(level: &CoreFail2BanLevel) -> Fail2BanLevel {
-  match level {
-    CoreFail2BanLevel::Info => Fail2BanLevel::Info,
-    CoreFail2BanLevel::Notice => Fail2BanLevel::Notice,
-    CoreFail2BanLevel::Warning => Fail2BanLevel::Warning,
-    CoreFail2BanLevel::Error => Fail2BanLevel::Error,
-    CoreFail2BanLevel::Debug => Fail2BanLevel::Debug,
-  }
-}
-
-fn convert_event(event: &CoreFail2BanEvent) -> Fail2BanEvent {
-  match event {
-    CoreFail2BanEvent::Found => Fail2BanEvent::Found,
-    CoreFail2BanEvent::Ban => Fail2BanEvent::Ban,
-    CoreFail2BanEvent::Unban => Fail2BanEvent::Unban,
-    CoreFail2BanEvent::Restore => Fail2BanEvent::Restore,
-    CoreFail2BanEvent::Ignore => Fail2BanEvent::Ignore,
-    CoreFail2BanEvent::AlreadyBanned => Fail2BanEvent::AlreadyBanned,
-    CoreFail2BanEvent::Failed => Fail2BanEvent::Failed,
-    CoreFail2BanEvent::Unknown => Fail2BanEvent::Unknown,
-  }
+#[napi(object)]
+pub struct ParseResult {
+  pub logs: Vec<Fail2BanLog>,
+  pub errors: Vec<ParseError>,
 }
 
 #[napi]
-pub fn plus_100(input: u32) -> u32 {
-  input + 100
-}
-
-#[napi]
-pub fn parse(input: String) -> (Vec<Fail2BanLog>, Vec<ParseError>) {
+#[allow(clippy::needless_pass_by_value)]
+pub fn parse(input: String) -> ParseResult {
   let mut logs = Vec::new();
   let mut errors = Vec::new();
 
   for result in core_parse(&input) {
     match result {
-      Ok(log) => {
-        logs.push(Fail2BanLog {
-          timestamp: log.timestamp().map(|t| t.to_rfc3339()),
-          header: log.header().map(convert_header),
-          pid: log.pid(),
-          level: log.level().map(convert_level),
-          jail: log.jail().map(ToString::to_string),
-          event: log.event().map(convert_event),
-          ip: log.ip().map(ToString::to_string),
-        });
-      }
-      Err(e) => {
-        errors.push(ParseError {
-          line_number: e.line_number as u32,
-          line: e.line,
-        });
-      }
+      Ok(log) => logs.push(Fail2BanLog {
+        timestamp: log.timestamp().map(|t| t.to_rfc3339()),
+        header: log.header().map(Into::into),
+        pid: log.pid(),
+        level: log.level().map(Into::into),
+        jail: log.jail().map(str::to_string),
+        event: log.event().map(Into::into),
+        ip: log.ip().map(ToString::to_string),
+      }),
+      Err(e) => errors.push(ParseError {
+        line_number: u32::try_from(e.line_number).unwrap_or(0),
+        line: e.line,
+      }),
     }
   }
 
-  (logs, errors)
+  ParseResult { logs, errors }
 }
