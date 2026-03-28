@@ -5,56 +5,56 @@ import { fileURLToPath } from "url";
 import { parse } from "../index.js";
 
 const SINGLE_LINE =
-  "2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1";
+	"2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1";
 const SINGLE_LINE_IPV6 =
-  "2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 2001:db8::1";
+	"2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 2001:db8::1";
 
 // Generate log batches of various sizes
 function generateLogBatch(n: number): string {
-  const lines = [
-    "2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.100",
-    "2024-01-15 14:32:02,123 fail2ban.filter [12345] INFO [sshd] Found 10.0.0.5",
-    "2024-01-15 14:32:03,456 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.100",
-    "2024-01-15 14:32:04,789 fail2ban.actions [12345] INFO [sshd] Unban 10.0.0.5",
-    "2024-01-15 14:32:05,000 fail2ban.server [12345] WARNING [sshd] Found 172.16.0.1",
-    "2024-01-15 14:32:06,100 fail2ban.filter [12345] ERROR [sshd] Failed 8.8.8.8",
-    "2024-01-15 14:32:07,200 fail2ban.filter [12345] DEBUG [sshd] Ignore 127.0.0.1",
-    "2024-01-15 14:32:08,300 fail2ban.actions [12345] NOTICE [sshd] Restore 5.6.7.8",
-  ];
-  return Array(n)
-    .fill(null)
-    .map((_, i) => lines[i % lines.length])
-    .join("\n");
+	const lines = [
+		"2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.100",
+		"2024-01-15 14:32:02,123 fail2ban.filter [12345] INFO [sshd] Found 10.0.0.5",
+		"2024-01-15 14:32:03,456 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.100",
+		"2024-01-15 14:32:04,789 fail2ban.actions [12345] INFO [sshd] Unban 10.0.0.5",
+		"2024-01-15 14:32:05,000 fail2ban.server [12345] WARNING [sshd] Found 172.16.0.1",
+		"2024-01-15 14:32:06,100 fail2ban.filter [12345] ERROR [sshd] Failed 8.8.8.8",
+		"2024-01-15 14:32:07,200 fail2ban.filter [12345] DEBUG [sshd] Ignore 127.0.0.1",
+		"2024-01-15 14:32:08,300 fail2ban.actions [12345] NOTICE [sshd] Restore 5.6.7.8",
+	];
+	return Array(n)
+		.fill(null)
+		.map((_, i) => lines[i % lines.length])
+		.join("\n");
 }
 
 // Generate mixed valid/invalid log batch
 function generateMixedLogBatch(n: number): string {
-  const validLines = [
-    "2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1",
-    "2024-01-15 14:32:10,123 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.1",
-    "2024-01-15 14:33:00,456 fail2ban.filter [12345] INFO [httpd] Found 10.0.0.1",
-  ];
-  const invalidLines = [
-    "invalid log line that cannot be parsed",
-    "corrupted data here",
-    "not a valid fail2ban entry",
-  ];
-  const result: string[] = [];
-  for (let i = 0; i < n; i++) {
-    if (i % 2 === 0) {
-      result.push(validLines[i % validLines.length]);
-    } else {
-      result.push(invalidLines[i % invalidLines.length]);
-    }
-  }
-  return result.join("\n");
+	const validLines = [
+		"2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1",
+		"2024-01-15 14:32:10,123 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.1",
+		"2024-01-15 14:33:00,456 fail2ban.filter [12345] INFO [httpd] Found 10.0.0.1",
+	];
+	const invalidLines = [
+		"invalid log line that cannot be parsed",
+		"corrupted data here",
+		"not a valid fail2ban entry",
+	];
+	const result: string[] = [];
+	for (let i = 0; i < n; i++) {
+		if (i % 2 === 0) {
+			result.push(validLines[i % validLines.length]);
+		} else {
+			result.push(invalidLines[i % invalidLines.length]);
+		}
+	}
+	return result.join("\n");
 }
 
 // BenchmarkResult type for JSON output
 interface BenchmarkResult {
-  name: string;
-  value: number;
-  unit?: string;
+	name: string;
+	value: number;
+	unit?: string;
 }
 
 const results: BenchmarkResult[] = [];
@@ -65,11 +65,11 @@ console.log("\n📊 Single Line Parsing\n");
 const singleBench = new Bench({ name: "single_line" });
 
 singleBench.add("ipv4", () => {
-  parse(SINGLE_LINE);
+	parse(SINGLE_LINE);
 });
 
 singleBench.add("ipv6", () => {
-  parse(SINGLE_LINE_IPV6);
+	parse(SINGLE_LINE_IPV6);
 });
 
 await singleBench.run();
@@ -77,11 +77,11 @@ console.table(singleBench.table());
 
 // Collect results (throughput in ops/s - bigger is better)
 for (const task of singleBench.tasks) {
-  results.push({
-    name: `single_line/${task.name}`,
-    value: Math.round(task.result?.throughput?.mean ?? 0),
-    unit: "ops/s",
-  });
+	results.push({
+		name: `single_line/${task.name}`,
+		value: Math.round(task.result?.throughput?.mean ?? 0),
+		unit: "ops/s",
+	});
 }
 
 // ============================================================================
@@ -89,15 +89,15 @@ for (const task of singleBench.tasks) {
 // ============================================================================
 
 console.log("\n📊 Batch Parsing (Various Sizes)\n");
-const batchSizes = [10, 100, 1_000, 10_000];
+const batchSizes = [10, 100, 1_000, 10_000, 1_000_000];
 const batchBench = new Bench({ name: "batch_parsing" });
 
 for (const size of batchSizes) {
-  const batch = generateLogBatch(size);
-  batchBench.add(`${size} lines`, () => {
-    const [logs, errors] = parse(batch);
-    return logs.length + errors.length;
-  });
+	const batch = generateLogBatch(size);
+	batchBench.add(`${size} lines`, () => {
+		const [logs, errors] = parse(batch);
+		return logs.length + errors.length;
+	});
 }
 
 await batchBench.run();
@@ -105,11 +105,11 @@ console.table(batchBench.table());
 
 // Collect results (throughput - bigger is better)
 for (const task of batchBench.tasks) {
-  results.push({
-    name: `batch/${task.name}`,
-    value: Math.round(task.result?.throughput?.mean ?? 0),
-    unit: "ops/s",
-  });
+	results.push({
+		name: `batch/${task.name}`,
+		value: Math.round(task.result?.throughput?.mean ?? 0),
+		unit: "ops/s",
+	});
 }
 
 // ============================================================================
@@ -124,18 +124,18 @@ const mixed500 = generateMixedLogBatch(500);
 const mixed1000 = generateMixedLogBatch(1_000);
 
 errorBench.add("100 lines (50% invalid)", () => {
-  const [logs, errors] = parse(mixed100);
-  return logs.length + errors.length;
+	const [logs, errors] = parse(mixed100);
+	return logs.length + errors.length;
 });
 
 errorBench.add("500 lines (50% invalid)", () => {
-  const [logs, errors] = parse(mixed500);
-  return logs.length + errors.length;
+	const [logs, errors] = parse(mixed500);
+	return logs.length + errors.length;
 });
 
 errorBench.add("1000 lines (50% invalid)", () => {
-  const [logs, errors] = parse(mixed1000);
-  return logs.length + errors.length;
+	const [logs, errors] = parse(mixed1000);
+	return logs.length + errors.length;
 });
 
 await errorBench.run();
@@ -143,11 +143,11 @@ console.table(errorBench.table());
 
 // Collect results (throughput - bigger is better)
 for (const task of errorBench.tasks) {
-  results.push({
-    name: `error_handling/${task.name}`,
-    value: Math.round(task.result?.throughput?.mean ?? 0),
-    unit: "ops/s",
-  });
+	results.push({
+		name: `error_handling/${task.name}`,
+		value: Math.round(task.result?.throughput?.mean ?? 0),
+		unit: "ops/s",
+	});
 }
 
 // THROUGHPUT COMPARISON
@@ -165,13 +165,13 @@ const time10k = performance.now() - start10k;
 const throughput10k = Math.round(logs10k.length / time10k);
 
 results.push({
-  name: "throughput/10k_lines",
-  value: throughput10k,
-  unit: "logs/ms",
+	name: "throughput/10k_lines",
+	value: throughput10k,
+	unit: "logs/ms",
 });
 
 console.log(
-  `✓ 10,000 lines: ${time10k.toFixed(2)}ms (${throughput10k} logs/ms)`,
+	`✓ 10,000 lines: ${time10k.toFixed(2)}ms (${throughput10k} logs/ms)`,
 );
 
 // Measure 100k batch
@@ -181,13 +181,30 @@ const time100k = performance.now() - start100k;
 const throughput100k = Math.round(logs100k.length / time100k);
 
 results.push({
-  name: "throughput/100k_lines",
-  value: throughput100k,
-  unit: "logs/ms",
+	name: "throughput/100k_lines",
+	value: throughput100k,
+	unit: "logs/ms",
 });
 
 console.log(
-  `✓ 100,000 lines: ${time100k.toFixed(2)}ms (${throughput100k} logs/ms)`,
+	`✓ 100,000 lines: ${time100k.toFixed(2)}ms (${throughput100k} logs/ms)`,
+);
+
+// Measure 1M batch
+const batch1m = generateLogBatch(1_000_000);
+const start1m = performance.now();
+const [logs1m] = parse(batch1m);
+const time1m = performance.now() - start1m;
+const throughput1m = Math.round(logs1m.length / time1m);
+
+results.push({
+	name: "throughput/1m_lines",
+	value: throughput1m,
+	unit: "logs/ms",
+});
+
+console.log(
+	`✓ 1,000,000 lines: ${time1m.toFixed(2)}ms (${throughput1m} logs/ms)`,
 );
 
 // OUTPUT RESULTS
