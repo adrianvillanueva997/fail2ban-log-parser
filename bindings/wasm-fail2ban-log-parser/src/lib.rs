@@ -1,3 +1,5 @@
+mod utils;
+
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -6,6 +8,6 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn greet(name: &str) {
-    alert(&format!("Hello, {name}!"));
+pub fn greet() {
+    alert("Hello, wasm-fail2ban-log-parser!");
 }
