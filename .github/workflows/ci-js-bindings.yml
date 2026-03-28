@@ -73,14 +73,14 @@ jobs:
               run: pnpm build
 
             - name: Run benchmarks
-              run: pnpm bench > ../../benchmark-js-results.txt 2>&1
+              run: pnpm bench
 
             - name: Store benchmark results
               uses: benchmark-action/github-action-benchmark@v1
               with:
                   name: JS Bindings Benchmarks
                   tool: customBiggerIsBetter
-                  output-file-path: benchmark-js-results.txt
+                  output-file-path: bindings/js-fail2ban-log-parser/benchmark/benchmark-results.json
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   auto-push: ${{ github.ref == 'refs/heads/main' }}
                   alert-threshold: 110%
