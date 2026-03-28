@@ -84,12 +84,10 @@ for (const task of singleBench.tasks) {
 	});
 }
 
-// ============================================================================
 // BATCH PARSING BENCHMARKS
-// ============================================================================
 
 console.log("\n📊 Batch Parsing (Various Sizes)\n");
-const batchSizes = [10, 100, 1_000, 10_000, 1_000_000];
+const batchSizes = [10, 100, 1_000, 10_000, 500_000];
 const batchBench = new Bench({ name: "batch_parsing" });
 
 for (const size of batchSizes) {
@@ -112,9 +110,7 @@ for (const task of batchBench.tasks) {
 	});
 }
 
-// ============================================================================
 // ERROR HANDLING BENCHMARKS
-// ============================================================================
 
 console.log("\n📊 Error Handling (Mixed Valid/Invalid)\n");
 const errorBench = new Bench({ name: "error_handling" });
@@ -190,21 +186,21 @@ console.log(
 	`✓ 100,000 lines: ${time100k.toFixed(2)}ms (${throughput100k} logs/ms)`,
 );
 
-// Measure 1M batch
-const batch1m = generateLogBatch(1_000_000);
-const start1m = performance.now();
-const [logs1m] = parse(batch1m);
-const time1m = performance.now() - start1m;
-const throughput1m = Math.round(logs1m.length / time1m);
+// Measure 500k batch
+const batch500k = generateLogBatch(500_000);
+const start500k = performance.now();
+const [logs500k] = parse(batch500k);
+const time500k = performance.now() - start500k;
+const throughput500k = Math.round(logs500k.length / time500k);
 
 results.push({
-	name: "throughput/1m_lines",
-	value: throughput1m,
+	name: "throughput/500k_lines",
+	value: throughput500k,
 	unit: "logs/ms",
 });
 
 console.log(
-	`✓ 1,000,000 lines: ${time1m.toFixed(2)}ms (${throughput1m} logs/ms)`,
+	`✓ 500,000 lines: ${time500k.toFixed(2)}ms (${throughput500k} logs/ms)`,
 );
 
 // OUTPUT RESULTS
