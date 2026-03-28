@@ -3,7 +3,7 @@ resolver = "2"
 members = [
 	"crates/fail2ban-log-parser-core",
 	"bindings/py-fail2ban-log-parser",
-	"bindings/js-fail2ban-log-parser",
+	"bindings/js-fail2ban-log-parser", "bindings/wasm-fail2ban-log-parser",
 ]
 
 [workspace.package]
