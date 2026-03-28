@@ -1,8 +1,8 @@
 
 [package]
-authors           = ["LongYinan <lynweklm@gmail.com>"]
+authors = ["Adrian Villanueva Martinez"]
 edition.workspace = true
-name              = "js_fail2ban_log_parser"
+name = "js_fail2ban_log_parser"
 version.workspace = true
 
 [lib]
@@ -19,5 +19,5 @@ napi-derive = "3.0.0"
 napi-build = "2"
 
 [profile.release]
-lto   = true
+lto = true
 strip = "symbols"

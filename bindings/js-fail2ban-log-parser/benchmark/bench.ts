@@ -1,6 +1,6 @@
 import { Bench } from "tinybench";
 
-import { plus100, parse } from "../index.js";
+import { parse } from "../index.js";
 
 const sample = Array(100)
 	.fill(
@@ -9,10 +9,6 @@ const sample = Array(100)
 	.join("\n");
 
 const b = new Bench();
-
-b.add("Native a + 100", () => {
-	plus100(10);
-});
 
 b.add("Native parse single line", () => {
 	parse(

@@ -88,15 +88,9 @@ pub struct ParseError {
   pub line: String,
 }
 
-#[napi(object)]
-pub struct ParseResult {
-  pub logs: Vec<Fail2BanLog>,
-  pub errors: Vec<ParseError>,
-}
-
 #[napi]
 #[allow(clippy::needless_pass_by_value)]
-pub fn parse(input: String) -> ParseResult {
+pub fn parse(input: String) -> (Vec<Fail2BanLog>, Vec<ParseError>) {
   let mut logs = Vec::new();
   let mut errors = Vec::new();
 
@@ -112,11 +106,11 @@ pub fn parse(input: String) -> ParseResult {
         ip: log.ip().map(ToString::to_string),
       }),
       Err(e) => errors.push(ParseError {
-        line_number: u32::try_from(e.line_number).unwrap_or(0),
+        line_number: u32::try_from(e.line_number).unwrap_or(u32::MAX),
         line: e.line,
       }),
     }
   }
 
-  ParseResult { logs, errors }
+  (logs, errors)
 }
