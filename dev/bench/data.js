@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774823660524,
+  "lastUpdate": 1774823675540,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "JS Bindings Benchmarks": [
@@ -177,6 +177,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "throughput/500k_lines",
             "value": 254,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "99f96e634d2b76e8c124921c88a4f45d2b91b5bb",
+          "message": "deps(rust): bump the rust-dependencies group with 2 updates (#19)",
+          "timestamp": "2026-03-30T07:31:12+09:00",
+          "tree_id": "1836742ae6f946ff3e2411f504b6c14b6003b305",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/99f96e634d2b76e8c124921c88a4f45d2b91b5bb"
+        },
+        "date": 1774823675250,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "single_line/ipv4",
+            "value": 246142,
+            "unit": "ops/s"
+          },
+          {
+            "name": "single_line/ipv6",
+            "value": 242754,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/10 lines",
+            "value": 11503,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/100 lines",
+            "value": 2766,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/1000 lines",
+            "value": 339,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/10000 lines",
+            "value": 35,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/500000 lines",
+            "value": 1,
+            "unit": "ops/s"
+          },
+          {
+            "name": "error_handling/100 lines (50% invalid)",
+            "value": 4002,
+            "unit": "ops/s"
+          },
+          {
+            "name": "error_handling/500 lines (50% invalid)",
+            "value": 1013,
+            "unit": "ops/s"
+          },
+          {
+            "name": "error_handling/1000 lines (50% invalid)",
+            "value": 535,
+            "unit": "ops/s"
+          },
+          {
+            "name": "throughput/10k_lines",
+            "value": 352,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "throughput/100k_lines",
+            "value": 315,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "throughput/500k_lines",
+            "value": 224,
             "unit": "logs/ms"
           }
         ]
