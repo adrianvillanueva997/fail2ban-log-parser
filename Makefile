@@ -1,41 +1,45 @@
-.PHONY: fmt fmt-check clippy lint test test-core test-wasm test-js test-python build-js bench-js build-python check all
+.PHONY: all fmt fmt-check clippy lint test check test-core
+.PHONY: test-wasm test-js test-python build-js build-python bench-js
+
+CARGO := cargo
+MAKE := make
+
+all: lint check test
 
 fmt:
-	cargo fmt --all
+	$(CARGO) fmt --all
 
 fmt-check:
-	cargo fmt --all -- --check
+	$(CARGO) fmt --all -- --check
 
 clippy:
-	cargo clippy --workspace --all-features -- -D warnings
+	$(CARGO) clippy --workspace --all-features -- -D warnings
 
 lint: fmt-check clippy
 
+check:
+	$(CARGO) check --workspace --all-features
+
 test:
-	cargo test --workspace --all-features
+	$(CARGO) test --workspace --all-features
 
 test-core:
-	cargo test -p fail2ban-log-parser-core --all-features
+	$(CARGO) test -p fail2ban-log-parser-core --all-features
 
 test-wasm:
-	cd bindings/wasm-fail2ban-log-parser && wasm-pack test --node
-
-build-js:
-	cd bindings/js-fail2ban-log-parser && pnpm install && pnpm build
-
-bench-js:
-	cd bindings/js-fail2ban-log-parser && pnpm bench
+	$(MAKE) -C bindings/wasm-fail2ban-log-parser test
 
 test-js:
-	cd bindings/js-fail2ban-log-parser && pnpm test
-
-build-python:
-	cd bindings/py-fail2ban-log-parser && uv run maturin develop --release
+	$(MAKE) -C bindings/js-fail2ban-log-parser test
 
 test-python:
-	cd bindings/py-fail2ban-log-parser && uv run pytest tests/ -v
+	$(MAKE) -C bindings/py-fail2ban-log-parser test
 
-check:
-	cargo check --workspace --all-features
+build-js:
+	$(MAKE) -C bindings/js-fail2ban-log-parser build
 
-all: lint check test
+bench-js:
+	$(MAKE) -C bindings/js-fail2ban-log-parser bench
+
+build-python:
+	$(MAKE) -C bindings/py-fail2ban-log-parser build
