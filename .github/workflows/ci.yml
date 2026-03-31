@@ -24,6 +24,10 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
             - run: make check
 
     fmt:
@@ -36,6 +40,10 @@ jobs:
                   toolchain: stable
                   cache: true
                   components: rustfmt
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
             - run: make fmt-check
 
     clippy:
@@ -48,6 +56,10 @@ jobs:
                   toolchain: stable
                   cache: true
                   components: clippy
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
             - run: make clippy
 
     test:
@@ -62,6 +74,10 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ${{ matrix.os }}
             - run: make test
 
     bench:
@@ -76,6 +92,10 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
 
             - name: Run sequential benchmarks
               run: cargo bench -p fail2ban-log-parser-core --bench parsing -- --output-format bencher | tee output.txt
@@ -106,4 +126,8 @@ jobs:
               with:
                   toolchain: "1.85.0"
             - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
-            - run: cargo check -p fail2ban-log-parser-core
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
+            - run: make check

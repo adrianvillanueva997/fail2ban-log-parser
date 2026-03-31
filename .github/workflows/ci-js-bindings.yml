@@ -33,6 +33,11 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ${{ matrix.os }}
+
             - name: Install dependencies
               run: cd bindings/js-fail2ban-log-parser && pnpm install
 
@@ -58,7 +63,12 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
               with:
-                  node-version: 20 # LEt's always test against the minimum supported version
+                  node-version: 20
+
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
 
             - name: Install dependencies
               run: cd bindings/js-fail2ban-log-parser && pnpm install

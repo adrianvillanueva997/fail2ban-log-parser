@@ -1,0 +1,25 @@
+name: Install Make
+description: Installs make based on the operating system
+
+inputs:
+  os:
+    description: The operating system (ubuntu, macos, windows)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install make on Ubuntu
+      if: inputs.os == 'ubuntu'
+      run: apt-get update && apt-get install -y make
+      shell: bash
+
+    - name: Install make on macOS
+      if: inputs.os == 'macos'
+      run: brew install make
+      shell: bash
+
+    - name: Install make on Windows
+      if: inputs.os == 'windows'
+      run: choco install make
+      shell: pwsh

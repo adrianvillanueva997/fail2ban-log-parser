@@ -36,6 +36,11 @@ jobs:
           toolchain: stable
           cache: true
 
+      - name: Install make
+        uses: ./.github/actions/install-make
+        with:
+          os: ubuntu
+
       - name: Install wasm-pack
         run: cargo install wasm-pack
 
@@ -44,5 +49,3 @@ jobs:
 
       - name: Run tests
         run: make test-wasm
-        env:
-          PATH: /home/runner/.nvm/versions/node/v20.18.0/bin:$PATH
