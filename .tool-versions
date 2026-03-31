@@ -1,2 +1,4 @@
 python 3.14.3
+nodejs 20.11.0
 aqua:drager/wasm-pack latest
+pnpm latest

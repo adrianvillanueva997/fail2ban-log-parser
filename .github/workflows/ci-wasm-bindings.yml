@@ -1,0 +1,44 @@
+name: WASM Tests
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "bindings/wasm-fail2ban-log-parser/**"
+    pull_request:
+        branches: [main]
+        paths:
+            - "bindings/wasm-fail2ban-log-parser/**"
+
+env:
+    CARGO_TERM_COLOR: always
+
+jobs:
+    wasm-test:
+        name: WASM Tests
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+            
+            - name: Install Node.js
+              uses: actions/setup-node@8313f71c4fd25eb97d9d3c5e26e2d44c5f22a8c7 # v4.3.0
+              with:
+                  node-version: "20"
+                  cache: "npm"
+                  cache-dependency-path: bindings/wasm-fail2ban-log-parser/package.json
+
+            - uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
+              with:
+                  toolchain: stable
+                  cache: true
+
+            - name: Install wasm-pack
+              run: cargo install wasm-pack
+
+            - name: Install wasm32 target
+              run: rustup target add wasm32-unknown-unknown
+
+            - name: Run tests
+              run: make test-wasm
+              env:
+                  PATH: /home/runner/.nvm/versions/node/v20.18.0/bin:$PATH

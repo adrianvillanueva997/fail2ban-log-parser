@@ -24,7 +24,7 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
-            - run: cargo check --workspace --all-features
+            - run: make check
 
     fmt:
         name: Rustfmt
@@ -36,7 +36,7 @@ jobs:
                   toolchain: stable
                   cache: true
                   components: rustfmt
-            - run: cargo fmt --all -- --check
+            - run: make fmt-check
 
     clippy:
         name: Clippy
@@ -48,7 +48,7 @@ jobs:
                   toolchain: stable
                   cache: true
                   components: clippy
-            - run: cargo clippy --workspace --all-features -- -D warnings
+            - run: make clippy
 
     test:
         name: Test (${{ matrix.os }})
@@ -62,7 +62,7 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
-            - run: cargo test --workspace --all-features
+            - run: make test
 
     bench:
         name: Benchmarks
