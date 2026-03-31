@@ -1,4 +1,4 @@
-name: WASM Tests
+name: WASM Bindings CI
 
 on:
   push:
