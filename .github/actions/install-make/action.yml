@@ -11,7 +11,7 @@ runs:
   steps:
     - name: Install make on Ubuntu
       if: inputs.os == 'ubuntu'
-      run: apt-get update && apt-get install -y make
+      run: sudo apt-get update && apt-get install -y make
       shell: bash
 
     - name: Install make on macOS
