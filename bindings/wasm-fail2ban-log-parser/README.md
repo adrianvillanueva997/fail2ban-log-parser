@@ -1,84 +1,100 @@
-<div align="center">
+# fail2ban-log-parser WASM Bindings
 
-  <h1><code>wasm-pack-template</code></h1>
+High-performance fail2ban log parser implemented in Rust, compiled to WebAssembly.
 
-  <strong>A template for kick starting a Rust and WebAssembly project using <a href="https://github.com/rustwasm/wasm-pack">wasm-pack</a>.</strong>
+## Prerequisites
 
-  <p>
-    <a href="https://travis-ci.org/rustwasm/wasm-pack-template"><img src="https://img.shields.io/travis/rustwasm/wasm-pack-template.svg?style=flat-square" alt="Build Status" /></a>
-  </p>
+- Rust (stable)
+- [wasm-pack](https://rustwasm.github.io/wasm-pack/)
+- Node.js 18+ (for running examples)
 
-  <h3>
-    <a href="https://rustwasm.github.io/docs/wasm-pack/tutorials/npm-browser-packages/index.html">Tutorial</a>
-    <span> | </span>
-    <a href="https://discordapp.com/channels/442252698964721669/443151097398296587">Chat</a>
-  </h3>
+## Build
 
-  <sub>Built with 🦀🕸 by <a href="https://rustwasm.github.io/">The Rust and WebAssembly Working Group</a></sub>
-</div>
-
-## About
-
-[**📚 Read this template tutorial! 📚**][template-docs]
-
-This template is designed for compiling Rust libraries into WebAssembly and
-publishing the resulting package to NPM.
-
-Be sure to check out [other `wasm-pack` tutorials online][tutorials] for other
-templates and usages of `wasm-pack`.
-
-[tutorials]: https://rustwasm.github.io/docs/wasm-pack/tutorials/index.html
-[template-docs]: https://rustwasm.github.io/docs/wasm-pack/tutorials/npm-browser-packages/index.html
-
-## 🚴 Usage
-
-### 🐑 Use `cargo generate` to Clone this Template
-
-[Learn more about `cargo generate` here.](https://github.com/ashleygwilliams/cargo-generate)
-
-```
-cargo generate --git https://github.com/rustwasm/wasm-pack-template.git --name my-project
-cd my-project
+```bash
+make build
+# or
+wasm-pack build --target node
 ```
 
-### 🛠️ Build with `wasm-pack build`
+## Test
 
-```
-wasm-pack build
-```
-
-### 🔬 Test in Headless Browsers with `wasm-pack test`
-
-```
-wasm-pack test --headless --firefox
+```bash
+make test
+# or
+wasm-pack test --node
 ```
 
-### 🎁 Publish to NPM with `wasm-pack publish`
+## Usage
 
+```javascript
+const { parse } = require("./pkg");
+
+const logs = `2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1
+2024-01-15 14:32:02,100 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.1`;
+
+const result = parse(logs);
+
+console.log("Parsed logs:", result.logs);
+console.log("Errors:", result.errors);
 ```
-wasm-pack publish
+
+### Output Structure
+
+```typescript
+interface Fail2BanLog {
+    timestamp: string | null;      // ISO 8601 format
+    header: "Filter" | "Actions" | "Server" | null;
+    pid: number | null;
+    level: "Info" | "Notice" | "Warning" | "Error" | "Debug" | null;
+    jail: string | null;
+    event: "Found" | "Ban" | "Unban" | "Restore" | "Ignore" | "AlreadyBanned" | "Failed" | "Unknown" | null;
+    ip: string | null;
+}
+
+interface ParseResult {
+    logs: Fail2BanLog[];
+    errors: ParseError[];
+}
+
+interface ParseError {
+    line_number: number;
+    line: string;
+}
 ```
 
-## 🔋 Batteries Included
+## Run Example
 
-* [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) for communicating
-  between WebAssembly and JavaScript.
-* [`console_error_panic_hook`](https://github.com/rustwasm/console_error_panic_hook)
-  for logging panic messages to the developer console.
-* `LICENSE-APACHE` and `LICENSE-MIT`: most Rust projects are licensed this way, so these are included for you
+### Node.js
 
-## License
+```bash
+# Build first
+make build
 
-Licensed under either of
+# Then run the example
+node examples/usage.js
+```
 
-* Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or <http://www.apache.org/licenses/LICENSE-2.0>)
-* MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
+### Web Browser
 
-at your option.
+```bash
+# Build for web (web target is default)
+make build
 
-### Contribution
+# Serve from THIS directory (not the root!)
+cd examples
+npx serve .
+# or
+python -m http.server 8080
+```
 
-Unless you explicitly state otherwise, any contribution intentionally
-submitted for inclusion in the work by you, as defined in the Apache-2.0
-license, shall be dual licensed as above, without any additional terms or
-conditions.
+Then open `http://localhost:8080/web.html` in your browser.
+
+```javascript
+// In browser ES module
+import init, { parse } from "./pkg/fail2ban_log_parser.js";
+
+await init();
+
+const result = parse(logString);
+console.log(result.logs, result.errors);
+```
