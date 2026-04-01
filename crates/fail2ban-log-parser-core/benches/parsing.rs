@@ -245,11 +245,12 @@ fn bench_parallel(c: &mut Criterion) {
             BenchmarkId::new("iterate", format!("{size}_lines")),
             &input,
             |b, input| {
-            b.iter(|| {
-                let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
-                black_box(count);
-            });
-        });
+                b.iter(|| {
+                    let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
+                    black_box(count);
+                });
+            },
+        );
     }
 
     group.finish();
