@@ -1,4 +1,4 @@
-.PHONY: build test
+.PHONY: build test bench
 
 UV := uv
 
@@ -7,3 +7,6 @@ build:
 
 test:
 	$(UV) run pytest tests/ -v
+
+bench:
+	$(UV) run python benchmark/bench.py

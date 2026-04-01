@@ -43,3 +43,40 @@ jobs:
               run: make build-python
             - name: Run tests
               run: make test-python
+
+    benchmark:
+        name: Benchmark Python bindings
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+            - name: Setup Python
+              uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 #v6.2.0
+              with:
+                  python-version: "3.12"
+            - uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
+              with:
+                  toolchain: stable
+                  cache: true
+            - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
+            - name: Build binding
+              run: make build-python
+            - name: Run benchmarks
+              run: make bench-python
+            - name: Store benchmark results
+              uses: benchmark-action/github-action-benchmark@v1
+              with:
+                  name: Python Bindings Benchmarks
+                  tool: customBiggerIsBetter
+                  output-file-path: bindings/py-fail2ban-log-parser/benchmark/benchmark-results.json
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  auto-push: ${{ github.ref == 'refs/heads/main' }}
+                  alert-threshold: "110%"
+                  comment-on-alert: true
+                  fail-on-alert: false

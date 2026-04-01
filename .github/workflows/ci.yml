@@ -126,8 +126,4 @@ jobs:
               with:
                   toolchain: "1.85.0"
             - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
-            - name: Install make
-              uses: ./.github/actions/install-make
-              with:
-                  os: ubuntu
-            - run: make check
+            - run: cargo check -p fail2ban-log-parser-core --all-features

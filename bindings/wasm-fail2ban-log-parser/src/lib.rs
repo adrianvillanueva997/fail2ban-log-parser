@@ -1,8 +1,8 @@
 #![warn(clippy::pedantic)]
 
 use fail2ban_log_parser_core::{
-    parse as core_parse, Fail2BanEvent as CoreFail2BanEvent,
-    Fail2BanHeaderType as CoreFail2BanHeaderType, Fail2BanLevel as CoreFail2BanLevel,
+    Fail2BanEvent as CoreFail2BanEvent, Fail2BanHeaderType as CoreFail2BanHeaderType,
+    Fail2BanLevel as CoreFail2BanLevel, parse as core_parse,
 };
 use std::convert::TryFrom;
 use wasm_bindgen::prelude::*;
