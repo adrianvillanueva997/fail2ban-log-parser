@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774823675540,
+  "lastUpdate": 1775008691501,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "JS Bindings Benchmarks": [
@@ -266,6 +266,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "throughput/500k_lines",
             "value": 224,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "16082421+adrianvillanueva997@users.noreply.github.com",
+            "name": "Adrián Villanueva",
+            "username": "adrianvillanueva997"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d4254666c14c93645f5230cf6b9736e25790becd",
+          "message": "feat: wasm bindings (#18)\n\n* [WIP]feat: wasm bindings\n\n* use wasm generate instead\n\n* update CI and binding implementation\n\n* fix ci\n\n* typo\n\n* fix permissions\n\n* ci changes\n\n* optimize makefile\n\n* forgot sudo\n\n* stuff\n\n* update CI and example\n\n* see if it works now\n\n* Apply suggestions from code review\n\nCo-authored-by: Copilot <175728472+Copilot@users.noreply.github.com>\n\n* fix\n\n---------\n\nCo-authored-by: Copilot <175728472+Copilot@users.noreply.github.com>",
+          "timestamp": "2026-04-01T10:54:46+09:00",
+          "tree_id": "01f75069ac7b9fbb3d369cfdb228fbdc70874545",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/d4254666c14c93645f5230cf6b9736e25790becd"
+        },
+        "date": 1775008690734,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "single_line/ipv4",
+            "value": 264454,
+            "unit": "ops/s"
+          },
+          {
+            "name": "single_line/ipv6",
+            "value": 259685,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/10 lines",
+            "value": 12965,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/100 lines",
+            "value": 3105,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/1000 lines",
+            "value": 380,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/10000 lines",
+            "value": 39,
+            "unit": "ops/s"
+          },
+          {
+            "name": "batch/500000 lines",
+            "value": 1,
+            "unit": "ops/s"
+          },
+          {
+            "name": "error_handling/100 lines (50% invalid)",
+            "value": 4320,
+            "unit": "ops/s"
+          },
+          {
+            "name": "error_handling/500 lines (50% invalid)",
+            "value": 1118,
+            "unit": "ops/s"
+          },
+          {
+            "name": "error_handling/1000 lines (50% invalid)",
+            "value": 589,
+            "unit": "ops/s"
+          },
+          {
+            "name": "throughput/10k_lines",
+            "value": 372,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "throughput/100k_lines",
+            "value": 345,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "throughput/500k_lines",
+            "value": 279,
             "unit": "logs/ms"
           }
         ]
