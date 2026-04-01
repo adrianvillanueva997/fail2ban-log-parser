@@ -1171,7 +1171,7 @@ checksum = "f032e076ceb8d36d5921c6cef5bf447f2ca2bbd5439ce1683d68d1c99cc2be16"
 
 [[package]]
 name = "wasm-fail2ban-log-parser"
-version = "0.1.0"
+version = "0.1.2"
 dependencies = [
  "console_error_panic_hook",
  "fail2ban-log-parser-core",
