@@ -24,7 +24,11 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
-            - run: cargo check --workspace --all-features
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
+            - run: make check
 
     fmt:
         name: Rustfmt
@@ -36,7 +40,11 @@ jobs:
                   toolchain: stable
                   cache: true
                   components: rustfmt
-            - run: cargo fmt --all -- --check
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
+            - run: make fmt-check
 
     clippy:
         name: Clippy
@@ -48,7 +56,11 @@ jobs:
                   toolchain: stable
                   cache: true
                   components: clippy
-            - run: cargo clippy --workspace --all-features -- -D warnings
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
+            - run: make clippy
 
     test:
         name: Test (${{ matrix.os }})
@@ -62,7 +74,11 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
-            - run: cargo test --workspace --all-features
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ${{ matrix.os }}
+            - run: make test
 
     bench:
         name: Benchmarks
@@ -76,6 +92,10 @@ jobs:
               with:
                   toolchain: stable
                   cache: true
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
 
             - name: Run sequential benchmarks
               run: cargo bench -p fail2ban-log-parser-core --bench parsing -- --output-format bencher | tee output.txt
@@ -106,4 +126,8 @@ jobs:
               with:
                   toolchain: "1.85.0"
             - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
-            - run: cargo check -p fail2ban-log-parser-core
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
+            - run: make check

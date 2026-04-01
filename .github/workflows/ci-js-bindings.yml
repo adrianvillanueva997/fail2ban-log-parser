@@ -4,10 +4,12 @@ on:
     push:
         branches: [main]
         paths:
+            - "crates/fail2ban-log-parser-core/**"
             - "bindings/js-fail2ban-log-parser/**"
     pull_request:
         branches: [main]
         paths:
+            - "crates/fail2ban-log-parser-core/**"
             - "bindings/js-fail2ban-log-parser/**"
 
 permissions:
@@ -18,10 +20,6 @@ jobs:
     js-bindings:
         name: JS bindings build+test
         runs-on: ${{ matrix.os }}
-        defaults:
-            run:
-                working-directory: bindings/js-fail2ban-log-parser
-
         strategy:
             matrix:
                 os: [ubuntu-latest, macos-latest, windows-latest]
@@ -37,22 +35,23 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ${{ matrix.os }}
+
             - name: Install dependencies
-              run: pnpm install
+              run: cd bindings/js-fail2ban-log-parser && pnpm install
 
             - name: Build bindings
-              run: pnpm build
+              run: make build-js
 
             - name: Run tests
-              run: pnpm test
+              run: make test-js
 
     benchmark:
         name: Benchmark JS bindings
         runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: bindings/js-fail2ban-log-parser
-
         permissions:
             contents: write
             pull-requests: write
@@ -66,16 +65,21 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
               with:
-                  node-version: 20 # LEt's always test against the minimum supported version
+                  node-version: 20
+
+            - name: Install make
+              uses: ./.github/actions/install-make
+              with:
+                  os: ubuntu
 
             - name: Install dependencies
-              run: pnpm install
+              run: cd bindings/js-fail2ban-log-parser && pnpm install
 
             - name: Build bindings
-              run: pnpm build
+              run: make build-js
 
             - name: Run benchmarks
-              run: pnpm bench
+              run: make bench-js
 
             - name: Store benchmark results
               uses: benchmark-action/github-action-benchmark@v1
