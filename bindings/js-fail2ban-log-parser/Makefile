@@ -1,11 +1,11 @@
-.PHONY: build build:debug test bench format lint install
+.PHONY: build build-debug test bench format lint install
 
 PNPM := pnpm
 
 build:
 	$(PNPM) build
 
-build:debug:
+build-debug:
 	$(PNPM) build:debug
 
 test:
