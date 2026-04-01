@@ -64,34 +64,24 @@ interface ParseError {
 
 ## Run Example
 
-### Node.js
+The `examples/` directory contains a Svelte + Vite demo app.
 
 ```bash
-# Build first
+# Build the WASM package first
 make build
 
-# Then run the example
-node examples/usage.js
-```
-
-### Web Browser
-
-```bash
-# Build for web (web target is default)
-make build
-
-# Serve from THIS directory (not the root!)
+# Then run the demo
 cd examples
-npx serve .
-# or
-python -m http.server 8080
+pnpm install
+pnpm dev
 ```
 
-Then open `http://localhost:8080/web.html` in your browser.
+Open the URL printed by Vite (typically `http://localhost:5173`).
+
+### Using in your own project
 
 ```javascript
-// In browser ES module
-import init, { parse } from "./pkg/fail2ban_log_parser.js";
+import init, { parse } from "wasm-fail2ban-log-parser";
 
 await init();
 

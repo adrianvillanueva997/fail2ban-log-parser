@@ -137,10 +137,12 @@ pub struct ParseError {
 #[wasm_bindgen]
 impl ParseError {
     #[wasm_bindgen(getter)]
+    #[must_use]
     pub fn line_number(&self) -> u32 {
         self.line_number
     }
     #[wasm_bindgen(getter)]
+    #[must_use]
     pub fn line(&self) -> String {
         self.line.clone()
     }
@@ -187,6 +189,7 @@ impl Default for ParseResult {
 }
 
 #[wasm_bindgen]
+#[allow(clippy::needless_pass_by_value)]
 pub fn parse(input: String) -> ParseResult {
     let mut result = ParseResult::new();
 

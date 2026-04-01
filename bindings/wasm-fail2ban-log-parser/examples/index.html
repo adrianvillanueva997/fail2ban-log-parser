@@ -1,94 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>fail2ban-log-parser Web Demo</title>
-	<style>
-		body {
-			font-family: system-ui, sans-serif;
-			max-width: 800px;
-			margin: 2rem auto;
-			padding: 0 1rem;
-		}
-
-		textarea {
-			width: 100%;
-			height: 200px;
-			font-family: monospace;
-		}
-
-		button {
-			padding: 0.5rem 1rem;
-			margin: 0.5rem 0;
-		}
-
-		#results {
-			margin-top: 1rem;
-		}
-
-		.log-entry {
-			padding: 0.5rem;
-			border-bottom: 1px solid #eee;
-		}
-
-		.error {
-			color: #d32f2f;
-		}
-	</style>
-</head>
-
-<body>
-	<h1>fail2ban-log-parser Web Demo</h1>
-
-	<h2>Input</h2>
-	<textarea id="input" placeholder="Paste fail2ban logs here...">2024-01-15 14:32:01,847 fail2ban.filter [12345]
-		INFO [sshd] Found 192.168.1.1
-		2024-01-15 14:32:02,100 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.1
-		2024-01-15 14:35:00,000 fail2ban.filter [12346] INFO [nginx] Found 10.0.0.5
-		2024-01-15 14:36:00,000 fail2ban.filter [12346] INFO [nginx] Ban 10.0.0.5</textarea>
-
-	<button type="button" id="parse">Parse Logs</button>
-
-	<h2>Results</h2>
-	<div id="results"></div>
-
-	<script type="module">
-		import init, {parse} from "./pkg/fail2ban_log_parser.js";
-
-		await init();
-
-		document.getElementById("parse").addEventListener("click", () => {
-			const input = document.getElementById("input").value;
-			const result = parse(input);
-
-			const resultsDiv = document.getElementById("results");
-
-			if (result.logs.length > 0) {
-				const logsHtml = result.logs.map(log => `
-                    <div class="log-entry">
-                        <strong>${log.header || "Unknown"}</strong> [${log.pid || "-"}] 
-                        <strong>${log.level || "Unknown"}</strong>: 
-                        ${log.jail || "Unknown"} - ${log.event || "Unknown"} ${log.ip || ""}
-                        <br><small>${log.timestamp || "No timestamp"}</small>
-                    </div>
-                `).join("");
-				resultsDiv.innerHTML = `<h3>Parsed Logs (${result.logs.length})</h3>${logsHtml}`;
-			} else {
-				resultsDiv.innerHTML = "<p>No logs parsed.</p>";
-			}
-
-			if (result.errors.length > 0) {
-				const errorsHtml = result.errors.map(err => `
-                    <div class="error">
-                        Line ${err.line_number}: ${err.line}
-                    </div>
-                `).join("");
-				resultsDiv.innerHTML += `<h3>Errors (${result.errors.length})</h3>${errorsHtml}`;
-			}
-		});
-	</script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fail2ban-log-parser Demo</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

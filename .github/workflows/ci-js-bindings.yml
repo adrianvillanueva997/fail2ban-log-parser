@@ -4,10 +4,12 @@ on:
     push:
         branches: [main]
         paths:
+            - "crates/fail2ban-log-parser-core/**"
             - "bindings/js-fail2ban-log-parser/**"
     pull_request:
         branches: [main]
         paths:
+            - "crates/fail2ban-log-parser-core/**"
             - "bindings/js-fail2ban-log-parser/**"
 
 permissions:
