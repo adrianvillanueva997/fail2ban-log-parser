@@ -8,4 +8,4 @@ install:
 build: false
 
 test_script:
-  - cargo test --locked
+  - cargo test

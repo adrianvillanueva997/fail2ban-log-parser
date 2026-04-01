@@ -1,8 +1,9 @@
 [package]
 name = "wasm-fail2ban-log-parser"
-version = "0.1.0"
-authors = ["adrianvillanueva997 <adrianvillanueva997@gmail.com>"]
-edition = "2018"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
 
 [lib]
 crate-type = ["cdylib", "rlib"]

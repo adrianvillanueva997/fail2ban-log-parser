@@ -6,14 +6,14 @@ High-performance fail2ban log parser implemented in Rust, compiled to WebAssembl
 
 - Rust (stable)
 - [wasm-pack](https://rustwasm.github.io/wasm-pack/)
-- Node.js 18+ (for running examples)
+- Node.js 20.19+ (for running examples)
 
 ## Build
 
 ```bash
 make build
 # or
-wasm-pack build --target node
+wasm-pack build
 ```
 
 ## Test
@@ -41,14 +41,43 @@ console.log("Errors:", result.errors);
 ### Output Structure
 
 ```typescript
+// These enums mirror what `wasm-bindgen` typically generates: numeric enums.
+// Check the generated `pkg/*.d.ts` to confirm the exact names and values.
+export enum Fail2BanHeader {
+    Filter = 0,
+    Actions = 1,
+    Server = 2,
+}
+
+export enum Fail2BanLevel {
+    Info = 0,
+    Notice = 1,
+    Warning = 2,
+    Error = 3,
+    Debug = 4,
+}
+
+export enum Fail2BanEvent {
+    Found = 0,
+    Ban = 1,
+    Unban = 2,
+    Restore = 3,
+    Ignore = 4,
+    AlreadyBanned = 5,
+    Failed = 6,
+    Unknown = 7,
+}
+
 interface Fail2BanLog {
-    timestamp: string | null;      // ISO 8601 format
-    header: "Filter" | "Actions" | "Server" | null;
-    pid: number | null;
-    level: "Info" | "Notice" | "Warning" | "Error" | "Debug" | null;
-    jail: string | null;
-    event: "Found" | "Ban" | "Unban" | "Restore" | "Ignore" | "AlreadyBanned" | "Failed" | "Unknown" | null;
-    ip: string | null;
+    // Fields originating from `Option<T>` in Rust are represented as `T | undefined`
+    // in the generated TypeScript, which we model here using optional properties.
+    timestamp?: string;           // ISO 8601 format
+    header?: Fail2BanHeader;
+    pid?: number;
+    level?: Fail2BanLevel;
+    jail?: string;
+    event?: Fail2BanEvent;
+    ip?: string;
 }
 
 interface ParseResult {

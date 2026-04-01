@@ -168,6 +168,24 @@ impl ParseResult {
     pub fn errors(&self) -> Vec<ParseError> {
         self.errors.clone()
     }
+
+    /// Consume and return all logs without cloning.
+    ///
+    /// On the JS side this is exposed as `takeLogs()`.
+    #[wasm_bindgen(js_name = "takeLogs")]
+    #[must_use]
+    pub fn take_logs(&mut self) -> Vec<Fail2BanLog> {
+        std::mem::take(&mut self.logs)
+    }
+
+    /// Consume and return all errors without cloning.
+    ///
+    /// On the JS side this is exposed as `takeErrors()`.
+    #[wasm_bindgen(js_name = "takeErrors")]
+    #[must_use]
+    pub fn take_errors(&mut self) -> Vec<ParseError> {
+        std::mem::take(&mut self.errors)
+    }
 }
 
 #[wasm_bindgen]

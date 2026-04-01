@@ -21,5 +21,5 @@ runs:
 
     - name: Install make on Windows
       if: contains(inputs.os, 'windows')
-      run: choco install make
+      run: choco install make -y --no-progress
       shell: pwsh
