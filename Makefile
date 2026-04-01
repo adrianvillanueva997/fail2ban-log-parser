@@ -1,5 +1,5 @@
 .PHONY: all fmt fmt-check clippy lint test check test-core
-.PHONY: test-wasm test-js test-python build-js build-wasm build-python bench-js
+.PHONY: test-wasm test-js test-python build-js build-wasm build-python bench-js bench-python
 
 CARGO := cargo
 MAKE := make
@@ -42,6 +42,9 @@ build-wasm:
 
 bench-js:
 	$(MAKE) -C bindings/js-fail2ban-log-parser bench
+
+bench-python:
+	$(MAKE) -C bindings/py-fail2ban-log-parser bench
 
 build-python:
 	$(MAKE) -C bindings/py-fail2ban-log-parser build

@@ -50,16 +50,16 @@ fn generate_log_batch(n: usize) -> String {
 }
 
 fn bench_single_line(c: &mut Criterion) {
-    let mut group = c.benchmark_group("single_line");
+    let mut group = c.benchmark_group("core/single_line");
 
-    group.bench_function("iso_date_ipv4", |b| {
+    group.bench_function("default_timestamp_ipv4", |b| {
         b.iter(|| {
             let result = parse(black_box(SINGLE_LINE)).next().unwrap();
             black_box(result).unwrap();
         });
     });
 
-    group.bench_function("syslog_date", |b| {
+    group.bench_function("syslog_timestamp", |b| {
         b.iter(|| {
             let result = parse(black_box(SINGLE_LINE_SYSLOG)).next().unwrap();
             black_box(result).unwrap();
@@ -73,7 +73,7 @@ fn bench_single_line(c: &mut Criterion) {
         });
     });
 
-    group.bench_function("ipv6", |b| {
+    group.bench_function("ipv6_address", |b| {
         b.iter(|| {
             let result = parse(black_box(SINGLE_LINE_IPV6)).next().unwrap();
             black_box(result).unwrap();
@@ -84,19 +84,23 @@ fn bench_single_line(c: &mut Criterion) {
 }
 
 fn bench_batch_parsing(c: &mut Criterion) {
-    let mut group = c.benchmark_group("batch_parsing");
+    let mut group = c.benchmark_group("core/batch");
 
     for size in [10, 100, 1_000, 10_000, 100_000, 1_000_000] {
         let input = generate_log_batch(size);
         if size >= 100_000 {
             group.sample_size(10);
         }
-        group.bench_with_input(BenchmarkId::new("lines", size), &input, |b, input| {
-            b.iter(|| {
-                let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
-                black_box(count);
-            });
-        });
+        group.bench_with_input(
+            BenchmarkId::new("iterate", format!("{size}_lines")),
+            &input,
+            |b, input| {
+                b.iter(|| {
+                    let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
+                    black_box(count);
+                });
+            },
+        );
     }
 
     group.finish();
@@ -104,23 +108,23 @@ fn bench_batch_parsing(c: &mut Criterion) {
 
 fn bench_collect_vs_iterate(c: &mut Criterion) {
     let input = generate_log_batch(1_000);
-    let mut group = c.benchmark_group("collect_vs_iterate");
+    let mut group = c.benchmark_group("core/consumption_strategy");
 
-    group.bench_function("iterate_count", |b| {
+    group.bench_function("iterate_and_count", |b| {
         b.iter(|| {
             let count = parse(black_box(&input)).filter(|r| r.is_ok()).count();
             black_box(count);
         });
     });
 
-    group.bench_function("collect_vec", |b| {
+    group.bench_function("collect_to_vec", |b| {
         b.iter(|| {
             let logs: Vec<_> = parse(black_box(&input)).filter_map(|r| r.ok()).collect();
             black_box(logs);
         });
     });
 
-    group.bench_function("partition_ok_err", |b| {
+    group.bench_function("partition_results", |b| {
         b.iter(|| {
             let (ok, err): (Vec<_>, Vec<_>) = parse(black_box(&input)).partition(Result::is_ok);
             black_box((ok, err));
@@ -146,7 +150,7 @@ fn bench_error_handling(c: &mut Criterion) {
         }
     }
 
-    c.bench_function("mixed_valid_invalid_1000", |b| {
+    c.bench_function("core/error_handling/50pct_invalid_1000_lines", |b| {
         b.iter(|| {
             let results: Vec<_> = parse(black_box(&input)).collect();
             black_box(results);
@@ -167,7 +171,7 @@ fn bench_all_events(c: &mut Criterion) {
     ];
     let input = events.join("\n");
 
-    c.bench_function("all_event_types", |b| {
+    c.bench_function("core/event_coverage/all_8_event_types", |b| {
         b.iter(|| {
             let logs: Vec<_> = parse(black_box(&input)).filter_map(|r| r.ok()).collect();
             black_box(logs);
@@ -176,7 +180,7 @@ fn bench_all_events(c: &mut Criterion) {
 }
 
 fn bench_memory_usage(c: &mut Criterion) {
-    let mut group = c.benchmark_group("memory_usage");
+    let mut group = c.benchmark_group("core/memory");
 
     eprintln!("\n{:-<80}", "");
     eprintln!(
@@ -213,7 +217,7 @@ fn bench_memory_usage(c: &mut Criterion) {
             group.sample_size(10);
         }
         group.bench_with_input(
-            BenchmarkId::new("collect_lines", size),
+            BenchmarkId::new("collect", format!("{size}_lines")),
             &input,
             |b, input| {
                 b.iter(|| {
@@ -230,14 +234,17 @@ fn bench_memory_usage(c: &mut Criterion) {
 
 #[cfg(feature = "parallel")]
 fn bench_parallel(c: &mut Criterion) {
-    let mut group = c.benchmark_group("parallel");
+    let mut group = c.benchmark_group("core/parallel");
 
     for size in [1_000, 10_000, 100_000, 1_000_000] {
         let input = generate_log_batch(size);
         if size >= 100_000 {
             group.sample_size(10);
         }
-        group.bench_with_input(BenchmarkId::new("lines", size), &input, |b, input| {
+        group.bench_with_input(
+            BenchmarkId::new("iterate", format!("{size}_lines")),
+            &input,
+            |b, input| {
             b.iter(|| {
                 let count = parse(black_box(input)).filter(|r| r.is_ok()).count();
                 black_box(count);

@@ -62,13 +62,13 @@ const results: BenchmarkResult[] = [];
 // SINGLE LINE BENCHMARKS
 
 console.log("\n📊 Single Line Parsing\n");
-const singleBench = new Bench({ name: "single_line" });
+const singleBench = new Bench({ name: "js/single_line" });
 
-singleBench.add("ipv4", () => {
+singleBench.add("default_timestamp_ipv4", () => {
 	parse(SINGLE_LINE);
 });
 
-singleBench.add("ipv6", () => {
+singleBench.add("ipv6_address", () => {
 	parse(SINGLE_LINE_IPV6);
 });
 
@@ -78,7 +78,7 @@ console.table(singleBench.table());
 // Collect results (throughput in ops/s - bigger is better)
 for (const task of singleBench.tasks) {
 	results.push({
-		name: `single_line/${task.name}`,
+		name: `js/single_line/${task.name}`,
 		value: Math.round(task.result?.throughput?.mean ?? 0),
 		unit: "ops/s",
 	});
@@ -88,11 +88,11 @@ for (const task of singleBench.tasks) {
 
 console.log("\n📊 Batch Parsing (Various Sizes)\n");
 const batchSizes = [10, 100, 1_000, 10_000, 500_000];
-const batchBench = new Bench({ name: "batch_parsing" });
+const batchBench = new Bench({ name: "js/batch" });
 
 for (const size of batchSizes) {
 	const batch = generateLogBatch(size);
-	batchBench.add(`${size} lines`, () => {
+	batchBench.add(`${size}_lines`, () => {
 		const [logs, errors] = parse(batch);
 		return logs.length + errors.length;
 	});
@@ -104,7 +104,7 @@ console.table(batchBench.table());
 // Collect results (throughput - bigger is better)
 for (const task of batchBench.tasks) {
 	results.push({
-		name: `batch/${task.name}`,
+		name: `js/batch/${task.name}`,
 		value: Math.round(task.result?.throughput?.mean ?? 0),
 		unit: "ops/s",
 	});
@@ -113,23 +113,23 @@ for (const task of batchBench.tasks) {
 // ERROR HANDLING BENCHMARKS
 
 console.log("\n📊 Error Handling (Mixed Valid/Invalid)\n");
-const errorBench = new Bench({ name: "error_handling" });
+const errorBench = new Bench({ name: "js/error_handling" });
 
 const mixed100 = generateMixedLogBatch(100);
 const mixed500 = generateMixedLogBatch(500);
 const mixed1000 = generateMixedLogBatch(1_000);
 
-errorBench.add("100 lines (50% invalid)", () => {
+errorBench.add("50pct_invalid_100_lines", () => {
 	const [logs, errors] = parse(mixed100);
 	return logs.length + errors.length;
 });
 
-errorBench.add("500 lines (50% invalid)", () => {
+errorBench.add("50pct_invalid_500_lines", () => {
 	const [logs, errors] = parse(mixed500);
 	return logs.length + errors.length;
 });
 
-errorBench.add("1000 lines (50% invalid)", () => {
+errorBench.add("50pct_invalid_1000_lines", () => {
 	const [logs, errors] = parse(mixed1000);
 	return logs.length + errors.length;
 });
@@ -140,7 +140,7 @@ console.table(errorBench.table());
 // Collect results (throughput - bigger is better)
 for (const task of errorBench.tasks) {
 	results.push({
-		name: `error_handling/${task.name}`,
+		name: `js/error_handling/${task.name}`,
 		value: Math.round(task.result?.throughput?.mean ?? 0),
 		unit: "ops/s",
 	});
@@ -161,7 +161,7 @@ const time10k = performance.now() - start10k;
 const throughput10k = Math.round(logs10k.length / time10k);
 
 results.push({
-	name: "throughput/10k_lines",
+	name: "js/throughput/10k_lines",
 	value: throughput10k,
 	unit: "logs/ms",
 });
@@ -177,7 +177,7 @@ const time100k = performance.now() - start100k;
 const throughput100k = Math.round(logs100k.length / time100k);
 
 results.push({
-	name: "throughput/100k_lines",
+	name: "js/throughput/100k_lines",
 	value: throughput100k,
 	unit: "logs/ms",
 });
@@ -194,7 +194,7 @@ const time500k = performance.now() - start500k;
 const throughput500k = Math.round(logs500k.length / time500k);
 
 results.push({
-	name: "throughput/500k_lines",
+	name: "js/throughput/500k_lines",
 	value: throughput500k,
 	unit: "logs/ms",
 });
