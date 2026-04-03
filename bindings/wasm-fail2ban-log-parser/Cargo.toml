@@ -1,5 +1,5 @@
 [package]
-name = "wasm-fail2ban-log-parser"
+name = "fail2ban-log-parser-wasm"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
