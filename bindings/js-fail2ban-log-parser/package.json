@@ -1,5 +1,5 @@
 {
-  "name": "fail2banlogparser",
+  "name": "fail2ban-log-parser",
   "version": "1.0.0",
   "description": "High-performance fail2ban log parser implemented in Rust with Node.js bindings",
   "main": "index.js",

@@ -345,6 +345,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "fail2ban-log-parser-wasm"
+version = "0.1.2"
+dependencies = [
+ "console_error_panic_hook",
+ "fail2ban-log-parser-core",
+ "wasm-bindgen",
+ "wasm-bindgen-test",
+]
+
+[[package]]
 name = "find-msvc-tools"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1168,16 +1178,6 @@ name = "wasm-bindgen-test-shared"
 version = "0.2.115"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f032e076ceb8d36d5921c6cef5bf447f2ca2bbd5439ce1683d68d1c99cc2be16"
-
-[[package]]
-name = "wasm-fail2ban-log-parser"
-version = "0.1.2"
-dependencies = [
- "console_error_panic_hook",
- "fail2ban-log-parser-core",
- "wasm-bindgen",
- "wasm-bindgen-test",
-]
 
 [[package]]
 name = "web-sys"
