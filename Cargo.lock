@@ -334,7 +334,7 @@ checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
 
 [[package]]
 name = "fail2ban-log-parser-core"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "chrono",
  "criterion",
@@ -342,6 +342,16 @@ dependencies = [
  "rayon",
  "serde",
  "winnow",
+]
+
+[[package]]
+name = "fail2ban-log-parser-wasm"
+version = "0.1.3"
+dependencies = [
+ "console_error_panic_hook",
+ "fail2ban-log-parser-core",
+ "wasm-bindgen",
+ "wasm-bindgen-test",
 ]
 
 [[package]]
@@ -514,7 +524,7 @@ dependencies = [
 
 [[package]]
 name = "js_fail2ban_log_parser"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "fail2ban-log-parser-core",
  "napi",
@@ -783,7 +793,7 @@ dependencies = [
 
 [[package]]
 name = "py-fail2ban-log-parser"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "fail2ban-log-parser-core",
  "pyo3",
@@ -1168,16 +1178,6 @@ name = "wasm-bindgen-test-shared"
 version = "0.2.115"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f032e076ceb8d36d5921c6cef5bf447f2ca2bbd5439ce1683d68d1c99cc2be16"
-
-[[package]]
-name = "wasm-fail2ban-log-parser"
-version = "0.1.2"
-dependencies = [
- "console_error_panic_hook",
- "fail2ban-log-parser-core",
- "wasm-bindgen",
- "wasm-bindgen-test",
-]
 
 [[package]]
 name = "web-sys"
