@@ -1,99 +1,122 @@
 name: Release JS Bindings
 
 on:
-    push:
-        tags:
-            - "v*"
-    workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
 
 env:
-    CARGO_TERM_COLOR: always
-    PACKAGE_DIR: bindings/js-fail2ban-log-parser
+  CARGO_TERM_COLOR: always
+  PACKAGE_DIR: bindings/js-fail2ban-log-parser
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    build:
-        name: Build (${{ matrix.target }})
-        runs-on: ${{ matrix.os }}
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - os: windows-latest
-                      target: x86_64-pc-windows-msvc
-                    - os: macos-latest
-                      target: x86_64-apple-darwin
-                    - os: macos-latest
-                      target: aarch64-apple-darwin
-                    - os: ubuntu-latest
-                      target: x86_64-unknown-linux-gnu
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+  build:
+    name: Build (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: macos-13
+            target: x86_64-apple-darwin
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-            - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
-              with:
-                  version: latest
+      - uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
 
-            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-              with:
-                  node-version: 20
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+        with:
+          version: latest
 
-            - name: Install dependencies
-              working-directory: ${{ env.PACKAGE_DIR }}
-              run: pnpm install
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 20
 
-            - name: Build native module
-              working-directory: ${{ env.PACKAGE_DIR }}
-              run: pnpm build --target ${{ matrix.target }}
+      - name: Sync version from tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
 
-            - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
-              with:
-                  name: bindings-${{ matrix.target }}
-                  path: ${{ env.PACKAGE_DIR }}/*.node
-                  if-no-files-found: error
+      - name: Install dependencies
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: pnpm install
 
-    publish:
-        name: Publish to npm
-        needs: build
-        runs-on: ubuntu-latest
-        environment: npm
-        permissions:
-            id-token: write
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Build native module
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: pnpm build --target ${{ matrix.target }}
 
-            - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
-              with:
-                  version: latest
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: bindings-${{ matrix.target }}
+          path: ${{ env.PACKAGE_DIR }}/*.node
+          if-no-files-found: error
 
-            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-              with:
-                  node-version: 20
-                  registry-url: https://registry.npmjs.org/
+  publish:
+    name: Publish to npm
+    needs: build
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-            - name: Install dependencies
-              working-directory: ${{ env.PACKAGE_DIR }}
-              run: pnpm install
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+        with:
+          version: latest
 
-            - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-              with:
-                  pattern: bindings-*
-                  path: ${{ env.PACKAGE_DIR }}/artifacts
-                  merge-multiple: true
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
 
-            - name: Move artifacts
-              working-directory: ${{ env.PACKAGE_DIR }}
-              run: pnpm artifacts
+      - name: Sync version from tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
 
-            - name: List packages
-              working-directory: ${{ env.PACKAGE_DIR }}
-              run: ls -lR npm/
+      - name: Install dependencies
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: pnpm install
 
-            - name: Publish
-              working-directory: ${{ env.PACKAGE_DIR }}
-              run: |
-                  npm publish --provenance --access public
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: bindings-*
+          path: ${{ env.PACKAGE_DIR }}/artifacts
+          merge-multiple: true
+
+      - name: Move artifacts
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: pnpm artifacts
+
+      - name: List packages
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: ls -lR npm/
+
+      - name: Publish
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: |
+          npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

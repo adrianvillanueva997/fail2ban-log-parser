@@ -1,53 +1,53 @@
 name: Release WASM Bindings
 
 on:
-    push:
-        tags:
-            - "v*"
-    workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
 
 env:
-    CARGO_TERM_COLOR: always
-    PACKAGE_DIR: bindings/wasm-fail2ban-log-parser
+  CARGO_TERM_COLOR: always
+  PACKAGE_DIR: bindings/wasm-fail2ban-log-parser
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    build-and-publish:
-        name: Build and publish to npm
-        runs-on: ubuntu-latest
-        environment: npm-wasm
-        permissions:
-            id-token: write
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+  build-and-publish:
+    name: Build and publish to npm
+    runs-on: ubuntu-latest
+    environment: npm-wasm
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-            - uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
-              with:
-                  toolchain: stable
+      - uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
+        with:
+          toolchain: stable
 
-            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-              with:
-                  node-version: 20
-                  registry-url: https://registry.npmjs.org/
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
 
-            - name: Install wasm-pack
-              run: cargo install wasm-pack
+      - name: Install wasm-pack
+        run: cargo install wasm-pack
 
-            - name: Install wasm32 target
-              run: rustup target add wasm32-unknown-unknown
+      - name: Install wasm32 target
+        run: rustup target add wasm32-unknown-unknown
 
-            - name: Build WASM package
-              working-directory: ${{ env.PACKAGE_DIR }}
-              run: wasm-pack build --release --scope adrianvillanueva997
+      - name: Build WASM package
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: wasm-pack build --release --scope adrianvillanueva997
 
-            - name: List package contents
-              working-directory: ${{ env.PACKAGE_DIR }}/pkg
-              run: ls -lR
+      - name: List package contents
+        working-directory: ${{ env.PACKAGE_DIR }}/pkg
+        run: ls -lR
 
-            - name: Publish
-              working-directory: ${{ env.PACKAGE_DIR }}/pkg
-              run: npm publish --provenance --access public
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish
+        working-directory: ${{ env.PACKAGE_DIR }}/pkg
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,94 +1,94 @@
 name: CI - JS Bindings
 
 on:
-    push:
-        branches: [main]
-        paths:
-            - "crates/fail2ban-log-parser-core/**"
-            - "bindings/js-fail2ban-log-parser/**"
-    pull_request:
-        branches: [main]
-        paths:
-            - "crates/fail2ban-log-parser-core/**"
-            - "bindings/js-fail2ban-log-parser/**"
+  push:
+    branches: [main]
+    paths:
+      - "crates/fail2ban-log-parser-core/**"
+      - "bindings/js-fail2ban-log-parser/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/fail2ban-log-parser-core/**"
+      - "bindings/js-fail2ban-log-parser/**"
 
 permissions:
-    contents: write
-    pull-requests: write
+  contents: write
+  pull-requests: write
 
 jobs:
-    js-bindings:
-        name: JS bindings build+test
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest, macos-latest, windows-latest]
-                node-version: [20, 22, 24]
+  js-bindings:
+    name: JS bindings build+test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [20, 22, 24]
 
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-            - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 #v5.0.0
-              name: Install pnpm
-              with:
-                  version: latest
-            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-              with:
-                  node-version: ${{ matrix.node-version }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 #v5.0.0
+        name: Install pnpm
+        with:
+          version: latest
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: ${{ matrix.node-version }}
 
-            - name: Install make
-              uses: ./.github/actions/install-make
-              with:
-                  os: ${{ matrix.os }}
+      - name: Install make
+        uses: ./.github/actions/install-make
+        with:
+          os: ${{ matrix.os }}
 
-            - name: Install dependencies
-              run: cd bindings/js-fail2ban-log-parser && pnpm install
+      - name: Install dependencies
+        run: cd bindings/js-fail2ban-log-parser && pnpm install
 
-            - name: Build bindings
-              run: make build-js
+      - name: Build bindings
+        run: make build-js
 
-            - name: Run tests
-              run: make test-js
+      - name: Run tests
+        run: make test-js
 
-    benchmark:
-        name: Benchmark JS bindings
-        runs-on: ubuntu-latest
-        permissions:
-            contents: write
-            pull-requests: write
+  benchmark:
+    name: Benchmark JS bindings
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-            - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 #v5.0.0
-              name: Install pnpm
-              with:
-                  version: latest
-            - name: Setup Node.js
-              uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-              with:
-                  node-version: 20
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 #v5.0.0
+        name: Install pnpm
+        with:
+          version: latest
+      - name: Setup Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 20
 
-            - name: Install make
-              uses: ./.github/actions/install-make
-              with:
-                  os: ubuntu
+      - name: Install make
+        uses: ./.github/actions/install-make
+        with:
+          os: ubuntu
 
-            - name: Install dependencies
-              run: cd bindings/js-fail2ban-log-parser && pnpm install
+      - name: Install dependencies
+        run: cd bindings/js-fail2ban-log-parser && pnpm install
 
-            - name: Build bindings
-              run: make build-js
+      - name: Build bindings
+        run: make build-js
 
-            - name: Run benchmarks
-              run: make bench-js
+      - name: Run benchmarks
+        run: make bench-js
 
-            - name: Store benchmark results
-              uses: benchmark-action/github-action-benchmark@v1
-              with:
-                  name: JS Bindings Benchmarks
-                  tool: customBiggerIsBetter
-                  output-file-path: bindings/js-fail2ban-log-parser/benchmark/benchmark-results.json
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  auto-push: ${{ github.ref == 'refs/heads/main' }}
-                  alert-threshold: 110%
-                  comment-on-alert: true
-                  fail-on-alert: false
+      - name: Store benchmark results
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: JS Bindings Benchmarks
+          tool: customBiggerIsBetter
+          output-file-path: bindings/js-fail2ban-log-parser/benchmark/benchmark-results.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: ${{ github.ref == 'refs/heads/main' }}
+          alert-threshold: 110%
+          comment-on-alert: true
+          fail-on-alert: false

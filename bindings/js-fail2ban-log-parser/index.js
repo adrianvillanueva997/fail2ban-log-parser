@@ -107,36 +107,36 @@ function requireNative() {
     if (process.arch === 'x64') {
       if (process.config?.variables?.shlib_suffix === 'dll.a' || process.config?.variables?.node_target_type === 'shared_library') {
         try {
-        return require('./fail2banlogparser.win32-x64-gnu.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        const binding = require('fail2banlogparser-win32-x64-gnu')
-        const bindingPackageVersion = require('fail2banlogparser-win32-x64-gnu/package.json').version
-        if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
-          throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          return require('./fail2banlogparser.win32-x64-gnu.node')
+        } catch (e) {
+          loadErrors.push(e)
         }
-        return binding
-      } catch (e) {
-        loadErrors.push(e)
-      }
+        try {
+          const binding = require('fail2banlogparser-win32-x64-gnu')
+          const bindingPackageVersion = require('fail2banlogparser-win32-x64-gnu/package.json').version
+          if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./fail2banlogparser.win32-x64-msvc.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        const binding = require('fail2banlogparser-win32-x64-msvc')
-        const bindingPackageVersion = require('fail2banlogparser-win32-x64-msvc/package.json').version
-        if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
-          throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          return require('./fail2banlogparser.win32-x64-msvc.node')
+        } catch (e) {
+          loadErrors.push(e)
         }
-        return binding
-      } catch (e) {
-        loadErrors.push(e)
-      }
+        try {
+          const binding = require('fail2banlogparser-win32-x64-msvc')
+          const bindingPackageVersion = require('fail2banlogparser-win32-x64-msvc/package.json').version
+          if (bindingPackageVersion !== '1.0.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+            throw new Error(`Native binding package version mismatch, expected 1.0.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
+          }
+          return binding
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'ia32') {
       try {
@@ -562,8 +562,8 @@ if (!nativeBinding) {
   if (loadErrors.length > 0) {
     throw new Error(
       `Cannot find native binding. ` +
-        `npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). ` +
-        'Please try `npm i` again after removing both package-lock.json and node_modules directory.',
+      `npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). ` +
+      'Please try `npm i` again after removing both package-lock.json and node_modules directory.',
       {
         cause: loadErrors.reduce((err, cur) => {
           cur.cause = err

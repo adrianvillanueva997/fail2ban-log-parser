@@ -27,7 +27,9 @@ wasm-pack test --node
 ## Usage
 
 ```javascript
-const { parse } = require("./pkg");
+import init, { parse } from "fail2ban-log-parser-wasm";
+
+await init();
 
 const logs = `2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1
 2024-01-15 14:32:02,100 fail2ban.actions [12345] NOTICE [sshd] Ban 192.168.1.1`;
@@ -110,7 +112,7 @@ Open the URL printed by Vite (typically `http://localhost:5173`).
 ### Using in your own project
 
 ```javascript
-import init, { parse } from "wasm-fail2ban-log-parser";
+import init, { parse } from "fail2ban-log-parser-wasm";
 
 await init();
 
