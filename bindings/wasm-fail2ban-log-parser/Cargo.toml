@@ -3,6 +3,9 @@ name = "wasm-fail2ban-log-parser"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
+description = "High-performance fail2ban log parser compiled to WebAssembly"
+license = "Apache-2.0"
+repository = "https://github.com/adrianvillanueva997/fail2ban-log-parser"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

@@ -40,6 +40,12 @@ jobs:
               with:
                   node-version: 20
 
+            - name: Sync version from tag
+              working-directory: ${{ env.PACKAGE_DIR }}
+              run: |
+                  VERSION="${GITHUB_REF#refs/tags/v}"
+                  npm version "$VERSION" --no-git-tag-version --allow-same-version
+
             - name: Install dependencies
               working-directory: ${{ env.PACKAGE_DIR }}
               run: pnpm install
@@ -72,6 +78,12 @@ jobs:
               with:
                   node-version: 20
                   registry-url: https://registry.npmjs.org/
+
+            - name: Sync version from tag
+              working-directory: ${{ env.PACKAGE_DIR }}
+              run: |
+                  VERSION="${GITHUB_REF#refs/tags/v}"
+                  npm version "$VERSION" --no-git-tag-version --allow-same-version
 
             - name: Install dependencies
               working-directory: ${{ env.PACKAGE_DIR }}
