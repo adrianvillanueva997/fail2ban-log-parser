@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775269610592,
+  "lastUpdate": 1775270059101,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Python Bindings Benchmarks": [
@@ -268,6 +268,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "js/throughput/500k_lines",
             "value": 272,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a3d067cfa05a0b062bd48d5a15cb859ce573c40f",
+          "message": "deps(js): bump the js-dependencies group in /bindings/js-fail2ban-log-parser with 4 updates (#29)\n\nBumps the js-dependencies group in /bindings/js-fail2ban-log-parser with 4 updates: [@oxc-node/core](https://github.com/oxc-project/oxc-node), [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node), [oxlint](https://github.com/oxc-project/oxc/tree/HEAD/npm/oxlint) and [lodash](https://github.com/lodash/lodash).\n\n\nUpdates `@oxc-node/core` from 0.0.35 to 0.1.0\n- [Release notes](https://github.com/oxc-project/oxc-node/releases)\n- [Changelog](https://github.com/oxc-project/oxc-node/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/oxc-project/oxc-node/compare/v0.0.35...v0.1.0)\n\nUpdates `@types/node` from 25.5.0 to 25.5.2\n- [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)\n- [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)\n\nUpdates `oxlint` from 1.57.0 to 1.58.0\n- [Release notes](https://github.com/oxc-project/oxc/releases)\n- [Changelog](https://github.com/oxc-project/oxc/blob/main/npm/oxlint/CHANGELOG.md)\n- [Commits](https://github.com/oxc-project/oxc/commits/oxlint_v1.58.0/npm/oxlint)\n\nUpdates `lodash` from 4.17.23 to 4.18.1\n- [Release notes](https://github.com/lodash/lodash/releases)\n- [Commits](https://github.com/lodash/lodash/compare/4.17.23...4.18.1)\n\n---\nupdated-dependencies:\n- dependency-name: \"@oxc-node/core\"\n  dependency-version: 0.1.0\n  dependency-type: direct:development\n  update-type: version-update:semver-minor\n  dependency-group: js-dependencies\n- dependency-name: \"@types/node\"\n  dependency-version: 25.5.2\n  dependency-type: direct:development\n  update-type: version-update:semver-patch\n  dependency-group: js-dependencies\n- dependency-name: oxlint\n  dependency-version: 1.58.0\n  dependency-type: direct:development\n  update-type: version-update:semver-minor\n  dependency-group: js-dependencies\n- dependency-name: lodash\n  dependency-version: 4.18.1\n  dependency-type: direct:development\n  update-type: version-update:semver-minor\n  dependency-group: js-dependencies\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-04T11:30:21+09:00",
+          "tree_id": "3384b8d990453429bec0e7240035be6868d76c29",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/a3d067cfa05a0b062bd48d5a15cb859ce573c40f"
+        },
+        "date": 1775270058818,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "js/single_line/default_timestamp_ipv4",
+            "value": 244431,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/single_line/ipv6_address",
+            "value": 239091,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/10_lines",
+            "value": 10992,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/100_lines",
+            "value": 2681,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/1000_lines",
+            "value": 330,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/10000_lines",
+            "value": 34,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/500000_lines",
+            "value": 1,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_100_lines",
+            "value": 3886,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_500_lines",
+            "value": 996,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_1000_lines",
+            "value": 527,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/throughput/10k_lines",
+            "value": 324,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "js/throughput/100k_lines",
+            "value": 310,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "js/throughput/500k_lines",
+            "value": 222,
             "unit": "logs/ms"
           }
         ]
