@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775270059101,
+  "lastUpdate": 1775270294217,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Python Bindings Benchmarks": [
@@ -88,6 +88,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "py/throughput/500k_lines",
             "value": 1907,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "633648ddd5d0bc337c640c7ac8a90708fe36b6fb",
+          "message": "deps(rust): bump the rust-dependencies group across 1 directory with 2 updates (#26)\n\nBumps the rust-dependencies group with 2 updates: [winnow](https://github.com/winnow-rs/winnow) and [pyo3](https://github.com/pyo3/pyo3).\n\n\nUpdates `winnow` from 1.0.0 to 1.0.1\n- [Changelog](https://github.com/winnow-rs/winnow/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/winnow-rs/winnow/compare/v1.0.0...v1.0.1)\n\nUpdates `pyo3` from 0.28.2 to 0.28.3\n- [Release notes](https://github.com/pyo3/pyo3/releases)\n- [Changelog](https://github.com/PyO3/pyo3/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/pyo3/pyo3/compare/v0.28.2...v0.28.3)\n\n---\nupdated-dependencies:\n- dependency-name: winnow\n  dependency-version: 1.0.1\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n  dependency-group: rust-dependencies\n- dependency-name: pyo3\n  dependency-version: 0.28.3\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n  dependency-group: rust-dependencies\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-04T11:37:22+09:00",
+          "tree_id": "b151bdc734e9c3c5b75b0f235cf22b45b362a351",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/633648ddd5d0bc337c640c7ac8a90708fe36b6fb"
+        },
+        "date": 1775270293951,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "py/single_line/default_timestamp_ipv4",
+            "value": 818331,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/single_line/ipv6_address",
+            "value": 773395,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/10_lines",
+            "value": 50411,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/100_lines",
+            "value": 9145,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/1000_lines",
+            "value": 1652,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/10000_lines",
+            "value": 184,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/100000_lines",
+            "value": 18,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_100_lines",
+            "value": 11700,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_500_lines",
+            "value": 4351,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_1000_lines",
+            "value": 2530,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/throughput/10k_lines",
+            "value": 2193,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "py/throughput/100k_lines",
+            "value": 1957,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "py/throughput/500k_lines",
+            "value": 1946,
             "unit": "logs/ms"
           }
         ]
