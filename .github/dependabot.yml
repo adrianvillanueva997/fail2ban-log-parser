@@ -16,6 +16,7 @@ updates:
       directory: /bindings/js-fail2ban-log-parser
       schedule:
           interval: weekly
+      versioning-strategy: increase
       groups:
           js-dependencies:
               patterns:
