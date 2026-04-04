@@ -9,7 +9,7 @@ name = "fail2ban_log_parser"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.28.2", features = ["abi3-py310"] }
+pyo3 = { version = "0.28.3", features = ["abi3-py310"] }
 fail2ban-log-parser-core = { path = "../../crates/fail2ban-log-parser-core/", features = [
 	"parallel",
 ] }
