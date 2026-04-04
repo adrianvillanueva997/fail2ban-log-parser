@@ -3,13 +3,13 @@
 #![cfg(target_arch = "wasm32")]
 
 extern crate wasm_bindgen_test;
+use fail2ban_log_parser_wasm::{parse, Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel};
 use wasm_bindgen_test::*;
-use wasm_fail2ban_log_parser::{Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel};
 
 #[wasm_bindgen_test]
 fn parse_found_line() {
     let line = "2024-01-15 14:32:01,847 fail2ban.filter [12345] INFO [sshd] Found 192.168.1.1";
-    let result = wasm_fail2ban_log_parser::parse(line.into());
+    let result = parse(line.into());
 
     assert_eq!(result.logs().len(), 1);
     assert_eq!(result.errors().len(), 0);
@@ -27,7 +27,7 @@ fn parse_found_line() {
 #[wasm_bindgen_test]
 fn parse_ban_line() {
     let line = "2024-06-20 03:15:42,100 fail2ban.actions [999] NOTICE [sshd] Ban 10.0.0.5";
-    let result = wasm_fail2ban_log_parser::parse(line.into());
+    let result = parse(line.into());
 
     assert_eq!(result.logs().len(), 1);
 
@@ -43,7 +43,7 @@ fn parse_ban_line() {
 #[wasm_bindgen_test]
 fn parse_multiple_lines() {
     let input = "2024-01-15 14:32:01,847 fail2ban.filter [1] INFO [sshd] Found 192.168.1.1\n2024-01-15 14:32:02,100 fail2ban.actions [1] NOTICE [sshd] Ban 192.168.1.1";
-    let result = wasm_fail2ban_log_parser::parse(input.into());
+    let result = parse(input.into());
 
     assert_eq!(result.logs().len(), 2);
     assert_eq!(result.errors().len(), 0);
@@ -54,7 +54,7 @@ fn parse_multiple_lines() {
 #[wasm_bindgen_test]
 fn parse_error_line() {
     let line = "this is not a fail2ban log line";
-    let result = wasm_fail2ban_log_parser::parse(line.into());
+    let result = parse(line.into());
 
     assert_eq!(result.logs().len(), 0);
     assert_eq!(result.errors().len(), 1);
@@ -67,7 +67,7 @@ fn parse_error_line() {
 #[wasm_bindgen_test]
 fn parse_mixed_lines() {
     let input = "2024-01-15 14:32:01,847 fail2ban.filter [1] INFO [sshd] Found 192.168.1.1\ninvalid line\n2024-01-15 14:32:02,100 fail2ban.actions [1] NOTICE [sshd] Ban 192.168.1.1";
-    let result = wasm_fail2ban_log_parser::parse(input.into());
+    let result = parse(input.into());
 
     assert_eq!(result.logs().len(), 2);
     assert_eq!(result.errors().len(), 1);
@@ -77,7 +77,7 @@ fn parse_mixed_lines() {
 #[wasm_bindgen_test]
 fn parse_unban_line() {
     let line = "2024-06-20 03:15:42,100 fail2ban.actions [1] NOTICE [sshd] UnBan 10.0.0.5";
-    let result = wasm_fail2ban_log_parser::parse(line.into());
+    let result = parse(line.into());
 
     assert_eq!(result.logs().len(), 1);
     assert_eq!(result.logs()[0].event(), Some(Fail2BanEvent::Unban));
@@ -86,7 +86,7 @@ fn parse_unban_line() {
 #[wasm_bindgen_test]
 fn parse_error_level() {
     let line = "2024-06-20 03:15:42,100 fail2ban.filter [1] ERROR [sshd] Restore 10.0.0.5";
-    let result = wasm_fail2ban_log_parser::parse(line.into());
+    let result = parse(line.into());
 
     assert_eq!(result.logs().len(), 1);
     assert_eq!(result.logs()[0].level(), Some(Fail2BanLevel::Error));
@@ -95,7 +95,7 @@ fn parse_error_level() {
 #[wasm_bindgen_test]
 fn parse_server_header() {
     let line = "2024-06-20 03:15:42,100 fail2ban.server [1] INFO [sshd] Found 10.0.0.1";
-    let result = wasm_fail2ban_log_parser::parse(line.into());
+    let result = parse(line.into());
 
     assert_eq!(result.logs().len(), 1);
     assert_eq!(result.logs()[0].header(), Some(Fail2BanHeaderType::Server));
@@ -104,7 +104,7 @@ fn parse_server_header() {
 #[wasm_bindgen_test]
 fn parse_ipv6() {
     let line = "2024-01-15 14:32:01,847 fail2ban.filter [1] INFO [sshd] Found 2001:db8::1";
-    let result = wasm_fail2ban_log_parser::parse(line.into());
+    let result = parse(line.into());
 
     assert_eq!(result.logs().len(), 1);
     assert_eq!(result.logs()[0].ip().as_deref(), Some("2001:db8::1"));
