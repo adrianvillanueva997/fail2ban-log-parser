@@ -3,7 +3,7 @@
 #![cfg(target_arch = "wasm32")]
 
 extern crate wasm_bindgen_test;
-use fail2ban_log_parser_wasm::{parse, Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel};
+use fail2ban_log_parser_wasm::{Fail2BanEvent, Fail2BanHeaderType, Fail2BanLevel, parse};
 use wasm_bindgen_test::*;
 
 #[wasm_bindgen_test]
