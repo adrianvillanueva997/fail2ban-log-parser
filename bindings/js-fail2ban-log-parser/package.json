@@ -67,6 +67,7 @@
     "npm-run-all2": "^8.0.4",
     "oxlint": "^1.14.0",
     "prettier": "^3.6.2",
+    "lodash": "^4.17.21",
     "tinybench": "^6.0.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
