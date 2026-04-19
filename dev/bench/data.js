@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776023278590,
+  "lastUpdate": 1776604885199,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Python Bindings Benchmarks": [
@@ -177,6 +177,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "py/throughput/500k_lines",
             "value": 1946,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "735b0d72a6277b6a81a8837fed8221b5803f92da",
+          "message": "chore(deps-dev): bump pytest from 9.0.2 to 9.0.3 in /bindings/py-fail2ban-log-parser in the uv group across 1 directory (#33)\n\nBumps the uv group with 1 update in the /bindings/py-fail2ban-log-parser directory: [pytest](https://github.com/pytest-dev/pytest).\n\n\nUpdates `pytest` from 9.0.2 to 9.0.3\n- [Release notes](https://github.com/pytest-dev/pytest/releases)\n- [Changelog](https://github.com/pytest-dev/pytest/blob/main/CHANGELOG.rst)\n- [Commits](https://github.com/pytest-dev/pytest/compare/9.0.2...9.0.3)\n\n---\nupdated-dependencies:\n- dependency-name: pytest\n  dependency-version: 9.0.3\n  dependency-type: direct:development\n  dependency-group: uv\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-19T22:20:30+09:00",
+          "tree_id": "deac8c81809fd160cfd4556b1010e2869fe86731",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/735b0d72a6277b6a81a8837fed8221b5803f92da"
+        },
+        "date": 1776604884900,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "py/single_line/default_timestamp_ipv4",
+            "value": 817661,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/single_line/ipv6_address",
+            "value": 756430,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/10_lines",
+            "value": 55636,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/100_lines",
+            "value": 9805,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/1000_lines",
+            "value": 1756,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/10000_lines",
+            "value": 182,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/100000_lines",
+            "value": 18,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_100_lines",
+            "value": 12286,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_500_lines",
+            "value": 4793,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_1000_lines",
+            "value": 2723,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/throughput/10k_lines",
+            "value": 2211,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "py/throughput/100k_lines",
+            "value": 2000,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "py/throughput/500k_lines",
+            "value": 1943,
             "unit": "logs/ms"
           }
         ]
