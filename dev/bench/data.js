@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776604885199,
+  "lastUpdate": 1776607186396,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Python Bindings Benchmarks": [
@@ -713,6 +713,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "js/throughput/500k_lines",
             "value": 279,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "475e65496921bc5b071276002833549ba2262f0d",
+          "message": "deps(js): bump the js-dependencies group in /bindings/js-fail2ban-log-parser with 4 updates (#35)\n\n* deps(js): bump the js-dependencies group\n\nBumps the js-dependencies group in /bindings/js-fail2ban-log-parser with 4 updates: [@napi-rs/cli](https://github.com/napi-rs/napi-rs), [oxlint](https://github.com/oxc-project/oxc/tree/HEAD/npm/oxlint), [prettier](https://github.com/prettier/prettier) and [typescript](https://github.com/microsoft/TypeScript).\n\n\nUpdates `@napi-rs/cli` from 3.6.1 to 3.6.2\n- [Release notes](https://github.com/napi-rs/napi-rs/releases)\n- [Commits](https://github.com/napi-rs/napi-rs/compare/@napi-rs/cli@3.6.1...@napi-rs/cli@3.6.2)\n\nUpdates `oxlint` from 1.59.0 to 1.60.0\n- [Release notes](https://github.com/oxc-project/oxc/releases)\n- [Changelog](https://github.com/oxc-project/oxc/blob/main/npm/oxlint/CHANGELOG.md)\n- [Commits](https://github.com/oxc-project/oxc/commits/oxlint_v1.60.0/npm/oxlint)\n\nUpdates `prettier` from 3.8.2 to 3.8.3\n- [Release notes](https://github.com/prettier/prettier/releases)\n- [Changelog](https://github.com/prettier/prettier/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/prettier/prettier/compare/3.8.2...3.8.3)\n\nUpdates `typescript` from 6.0.2 to 6.0.3\n- [Release notes](https://github.com/microsoft/TypeScript/releases)\n- [Commits](https://github.com/microsoft/TypeScript/compare/v6.0.2...v6.0.3)\n\n---\nupdated-dependencies:\n- dependency-name: \"@napi-rs/cli\"\n  dependency-version: 3.6.2\n  dependency-type: direct:development\n  update-type: version-update:semver-patch\n  dependency-group: js-dependencies\n- dependency-name: oxlint\n  dependency-version: 1.60.0\n  dependency-type: direct:development\n  update-type: version-update:semver-minor\n  dependency-group: js-dependencies\n- dependency-name: prettier\n  dependency-version: 3.8.3\n  dependency-type: direct:development\n  update-type: version-update:semver-patch\n  dependency-group: js-dependencies\n- dependency-name: typescript\n  dependency-version: 6.0.3\n  dependency-type: direct:development\n  update-type: version-update:semver-patch\n  dependency-group: js-dependencies\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\n\n* drop node 20 testing\n\n* drop node 20 for 22\n\n* more cleanup\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: adrianvillanueva997 <adrianvillanueva997@gmail.com>\nCo-authored-by: Adrián Villanueva <16082421+adrianvillanueva997@users.noreply.github.com>",
+          "timestamp": "2026-04-19T22:56:03+09:00",
+          "tree_id": "a0705cdad86d9f5b892c70e1b34de245291b44e0",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/475e65496921bc5b071276002833549ba2262f0d"
+        },
+        "date": 1776607185879,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "js/single_line/default_timestamp_ipv4",
+            "value": 261332,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/single_line/ipv6_address",
+            "value": 255720,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/10_lines",
+            "value": 12368,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/100_lines",
+            "value": 2959,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/1000_lines",
+            "value": 349,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/10000_lines",
+            "value": 36,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/500000_lines",
+            "value": 1,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_100_lines",
+            "value": 4284,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_500_lines",
+            "value": 1050,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_1000_lines",
+            "value": 557,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/throughput/10k_lines",
+            "value": 319,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "js/throughput/100k_lines",
+            "value": 323,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "js/throughput/500k_lines",
+            "value": 228,
             "unit": "logs/ms"
           }
         ]
