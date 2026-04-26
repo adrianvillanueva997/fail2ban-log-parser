@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777208800098,
+  "lastUpdate": 1777208924910,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Python Bindings Benchmarks": [
@@ -980,6 +980,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "js/throughput/500k_lines",
             "value": 293,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6fd2a12be3f22f0c55154eb1bea4a98b96c481cc",
+          "message": "deps(js): bump oxlint (#37)",
+          "timestamp": "2026-04-26T22:03:27+09:00",
+          "tree_id": "e04e58d47bdeef2ede1ef843ab1d74e98a8074c1",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/6fd2a12be3f22f0c55154eb1bea4a98b96c481cc"
+        },
+        "date": 1777208924039,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "js/single_line/default_timestamp_ipv4",
+            "value": 254833,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/single_line/ipv6_address",
+            "value": 245713,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/10_lines",
+            "value": 16355,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/100_lines",
+            "value": 3223,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/1000_lines",
+            "value": 365,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/10000_lines",
+            "value": 36,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/batch/500000_lines",
+            "value": 1,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_100_lines",
+            "value": 4748,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_500_lines",
+            "value": 1123,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/error_handling/50pct_invalid_1000_lines",
+            "value": 586,
+            "unit": "ops/s"
+          },
+          {
+            "name": "js/throughput/10k_lines",
+            "value": 340,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "js/throughput/100k_lines",
+            "value": 320,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "js/throughput/500k_lines",
+            "value": 212,
             "unit": "logs/ms"
           }
         ]
