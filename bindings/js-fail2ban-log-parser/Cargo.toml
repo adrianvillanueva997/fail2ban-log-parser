@@ -12,8 +12,8 @@ crate-type = ["cdylib"]
 fail2ban-log-parser-core = { path = "../../crates/fail2ban-log-parser-core/", features = [
   "parallel",
 ] }
-napi = "3.8.5"
-napi-derive = "3.5.4"
+napi = "3.8.6"
+napi-derive = "3.5.5"
 
 [build-dependencies]
 napi-build = "2"
