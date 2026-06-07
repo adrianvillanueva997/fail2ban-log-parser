@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777208924910,
+  "lastUpdate": 1780838633788,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Python Bindings Benchmarks": [
@@ -355,6 +355,95 @@ window.BENCHMARK_DATA = {
           {
             "name": "py/throughput/500k_lines",
             "value": 1938,
+            "unit": "logs/ms"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c3cb5ff7207a2c29ffd337e244d90b888af3dece",
+          "message": "deps(rust): bump the rust-dependencies group across 1 directory with 5 updates (#49)",
+          "timestamp": "2026-06-07T22:23:01+09:00",
+          "tree_id": "99df9fc95294b4af9b5e9d9b444d96d589da6094",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/c3cb5ff7207a2c29ffd337e244d90b888af3dece"
+        },
+        "date": 1780838633015,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "py/single_line/default_timestamp_ipv4",
+            "value": 978474,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/single_line/ipv6_address",
+            "value": 907441,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/10_lines",
+            "value": 70817,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/100_lines",
+            "value": 12655,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/1000_lines",
+            "value": 2300,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/10000_lines",
+            "value": 234,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/batch/100000_lines",
+            "value": 23,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_100_lines",
+            "value": 16180,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_500_lines",
+            "value": 5882,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/error_handling/50pct_invalid_1000_lines",
+            "value": 3542,
+            "unit": "ops/s"
+          },
+          {
+            "name": "py/throughput/10k_lines",
+            "value": 2994,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "py/throughput/100k_lines",
+            "value": 2500,
+            "unit": "logs/ms"
+          },
+          {
+            "name": "py/throughput/500k_lines",
+            "value": 2472,
             "unit": "logs/ms"
           }
         ]
