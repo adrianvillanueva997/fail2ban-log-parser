@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777208992103,
+  "lastUpdate": 1780838948778,
   "repoUrl": "https://github.com/adrianvillanueva997/fail2ban-log-parser",
   "entries": {
     "Parser Benchmarks": [
@@ -521,6 +521,180 @@ window.BENCHMARK_DATA = {
             "name": "core/parallel/iterate/1000000_lines",
             "value": 154762593,
             "range": "± 611011",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c3cb5ff7207a2c29ffd337e244d90b888af3dece",
+          "message": "deps(rust): bump the rust-dependencies group across 1 directory with 5 updates (#49)",
+          "timestamp": "2026-06-07T22:23:01+09:00",
+          "tree_id": "99df9fc95294b4af9b5e9d9b444d96d589da6094",
+          "url": "https://github.com/adrianvillanueva997/fail2ban-log-parser/commit/c3cb5ff7207a2c29ffd337e244d90b888af3dece"
+        },
+        "date": 1780838948262,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "core/single_line/default_timestamp_ipv4",
+            "value": 368,
+            "range": "± 4",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/single_line/syslog_timestamp",
+            "value": 375,
+            "range": "± 8",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/single_line/iso8601_timestamp",
+            "value": 380,
+            "range": "± 3",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/single_line/ipv6_address",
+            "value": 501,
+            "range": "± 11",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/batch/iterate/10_lines",
+            "value": 3626,
+            "range": "± 33",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/batch/iterate/100_lines",
+            "value": 38639,
+            "range": "± 401",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/batch/iterate/1000_lines",
+            "value": 360683,
+            "range": "± 2140",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/batch/iterate/10000_lines",
+            "value": 3669508,
+            "range": "± 42599",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/batch/iterate/100000_lines",
+            "value": 36275005,
+            "range": "± 256079",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/batch/iterate/1000000_lines",
+            "value": 365665632,
+            "range": "± 9918573",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/consumption_strategy/iterate_and_count",
+            "value": 360074,
+            "range": "± 2279",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/consumption_strategy/collect_to_vec",
+            "value": 383470,
+            "range": "± 8288",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/consumption_strategy/partition_results",
+            "value": 368683,
+            "range": "± 9822",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/error_handling/50pct_invalid_1000_lines",
+            "value": 229360,
+            "range": "± 5202",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/event_coverage/all_8_event_types",
+            "value": 3147,
+            "range": "± 45",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/memory/collect/1_lines",
+            "value": 413,
+            "range": "± 8",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/memory/collect/100_lines",
+            "value": 38748,
+            "range": "± 408",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/memory/collect/1000_lines",
+            "value": 383414,
+            "range": "± 4303",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/memory/collect/10000_lines",
+            "value": 3877083,
+            "range": "± 43560",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/memory/collect/100000_lines",
+            "value": 38422452,
+            "range": "± 239137",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/memory/collect/1000000_lines",
+            "value": 392671148,
+            "range": "± 2511145",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/parallel/iterate/1000_lines",
+            "value": 221208,
+            "range": "± 5684",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/parallel/iterate/10000_lines",
+            "value": 1729533,
+            "range": "± 38986",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/parallel/iterate/100000_lines",
+            "value": 16184157,
+            "range": "± 32663",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "core/parallel/iterate/1000000_lines",
+            "value": 162351670,
+            "range": "± 513840",
             "unit": "ns/iter"
           }
         ]
